@@ -1,0 +1,61 @@
+gagawa ako ng laravel then ang db ko ay mysql
+
+coffee_db
+
+https://coffee-base-philippines.myshopify.com/ gusto ko igaya mo dito pero ang flow ng sakin ay
+
+
+Admin feature
+nakakapag add muna ng category ng matcha 
+nag aadd ng product based sa category ng macha na inadd description parang ganto Finely milled matcha from Uji, Kyoto.
+
+Grade
+Ceremonial
+
+Flavor Notes
+Creamy Umami • Sweet Pea • Fresh Greens • Mellow Finish
+
+Origin
+Uji, Kyoto
+
+Cultivar
+Samidori
+
+Harvest
+1st Flush
+
+Milling
+Ball Mill
+
+Picking
+Shears
+
+Recommended For
+Usucha
+Matcha Latte
+
+Storage
+Keep refrigerated after opening.
+Avoid heat, light and humidity.
+nakakapag add ng image dapat store sa public not sa storage:link tapos, modify ng price halimbawa sa isang product meron dung weight 30g or 1kg for wholesale dapat matagged niya both ang price para sa display sa home page kapag nag filter si users makita automatic yung price tapos nakakapag tagged kung sold out available ang items
+orders -> nakikita yung mga orders tapos sa orders pwede siya mag tagged una muna default laging pending tapos tagged niya preparing tapos out for delivery then pag out for delivery pwede siya mag lagay ng link na ibabato sa client kung ano update like nag pa lalamove siya outside system pwede niya i input dun yung link
+user management -> mga admins, customers namomonitor
+contact -> name email phone comment
+
+Customer feature
+nakakapag register
+kita lang niya ang homepage saka yung mga products na nilagay ni admin kita din niya kahit sold out pero may highlight na sold out tapos nakakapag add to cart
+tapos delivery address
+country automatic philippines
+first name last name
+company (optional)
+address
+apartment, suite, etc. (optional)
+barangay
+city  
+postal code
+region
+phone
+
+tapos after ordering matagged na siya as pending -> pero viewable ni users details niya tapos may isang field dun na parang wait for the confirmation of the admin then kapag na tagged na as preparing nakalagay na Preparing your order
+then kapag out for delivery nakalagay na out for delivery then may link na makikita si client kung ano update nung items niya dun sa link kasi ilalagay ni admin yun pag out for delivery na ang itatagged
