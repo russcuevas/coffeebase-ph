@@ -16,8 +16,12 @@ class ShopController extends Controller
 
         // Filter by Category
         if ($request->filled('category')) {
-            $query->whereHas('category', function ($q) use ($request) {
-                $q->where('slug', $request->category);
+            $catSlug = $request->category;
+            $cleanSlug = str_replace(['singles-', 'single-'], '', $catSlug);
+            $query->whereHas('category', function ($q) use ($catSlug, $cleanSlug) {
+                $q->where('slug', $catSlug)
+                  ->orWhere('slug', 'LIKE', '%' . $cleanSlug . '%')
+                  ->orWhere('name', 'LIKE', '%' . str_replace('-', ' ', $catSlug) . '%');
             });
         }
 

@@ -8,11 +8,11 @@
     <title>@yield('title', 'Coffee Base Philippines | Artisanal Japanese Matcha & Specialty Blends')</title>
     <meta name="description" content="@yield('meta_description', 'Directly sourced ceremonial and barista grade Japanese matcha from Uji, Kyoto and Yame, Fukuoka. Explore single cultivar reserves, whisk tools, and wholesale matcha in the Philippines.')">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Japanese & Luxury Editorial Typography) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Zen+Old+Mincho:wght@400;500;600;700;900&display=swap"
         rel="stylesheet">
 
     <!-- Lucide Icons -->
@@ -57,8 +57,9 @@
                         }
                     },
                     fontFamily: {
-                        serif: ['"Plus Jakarta Sans"', '"Inter"', 'sans-serif'],
+                        serif: ['"Zen Old Mincho"', '"Cormorant Garamond"', 'serif'],
                         sans: ['"Plus Jakarta Sans"', '"Inter"', 'sans-serif'],
+                        mono: ['"SF Mono"', 'ui-monospace', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
                     }
                 }
             }
@@ -147,67 +148,93 @@
     <!-- Navigation Header -->
     <header class="glass-header sticky top-0 z-40 border-b border-cream-300/60 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+            
+            <!-- Desktop & Mobile Header Layout -->
+            <div class="flex items-center justify-between h-20 sm:h-24">
 
-                <!-- Left: Logo & Nav Links -->
-                <div class="flex items-center space-x-8 lg:space-x-12">
-                    <!-- Brand Logo -->
-                    <div class="flex-shrink-0">
-                        <a href="{{ route('home') }}" class="inline-block group">
-                            <span class="text-lg sm:text-xl font-sans font-bold tracking-tight text-stone-950 group-hover:text-matcha-700 transition-colors">COFFEE BASE Philippines</span>
-                        </a>
-                    </div>
+                <!-- Left: Navigation (Desktop) / Menu Button (Mobile) -->
+                <div class="flex items-center">
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="lg:hidden text-stone-900 p-2 hover:text-matcha-700 transition-colors" aria-label="Open Menu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
 
-                    <!-- Navigation Links -->
-                    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm">
+                    <!-- Desktop Navigation Links (Left side or Full) -->
+                    <nav class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-mono uppercase tracking-[0.18em]">
                         <a href="{{ route('home') }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('home') && !request()->has('category') ? 'font-semibold text-stone-950' : 'font-normal' }}">Home</a>
-                        <a href="{{ route('shop.index') }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('shop.*') && !request('category') && !request('grade') ? 'font-semibold text-stone-950' : 'font-normal' }}">Matcha</a>
+                            class="transition-colors pb-0.5 {{ request()->routeIs('home') && !request()->has('category') ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            Home
+                        </a>
                         <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request('category') === 'single-origin-matcha' ? 'font-semibold text-stone-950' : 'font-normal' }}">Single Origin Matcha</a>
+                            class="transition-colors pb-0.5 {{ request('category') === 'single-origin-matcha' || request('category') === 'singles-origin' || request('category') === 'single-origin' ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            Singles Origin
+                        </a>
                         <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request('category') === 'matcha-blends' ? 'font-semibold text-stone-950' : 'font-normal' }}">Matcha Blends</a>
-                        <a href="{{ route('about') }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('about') ? 'font-semibold text-stone-950' : 'font-normal' }}">About Us</a>
-                        <a href="{{ route('contact') }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('contact') ? 'font-semibold text-stone-950' : 'font-normal' }}">Contact</a>
+                            class="transition-colors pb-0.5 {{ request('category') === 'matcha-blends' || request('category') === 'blends' ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            Matcha Blends
+                        </a>
                     </nav>
                 </div>
 
-                <!-- Right Actions (Account, Cart) -->
-                <div class="flex items-center space-x-5">
+                <!-- Center: Brand Logo (Centered like Sabo Matcha) -->
+                <div class="absolute left-1/2 -translate-x-1/2 text-center pointer-events-auto">
+                    <a href="{{ route('home') }}" class="inline-flex flex-col items-center group">
+                        <span class="text-lg sm:text-2xl font-serif font-bold tracking-[-0.03em] text-stone-950 uppercase group-hover:text-matcha-800 transition-colors">
+                            COFFEE BASE
+                        </span>
+                        <span class="text-[9px] sm:text-[10px] font-mono tracking-[0.35em] text-stone-500 uppercase -mt-0.5 group-hover:text-stone-800 transition-colors">
+                            Philippines
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Right: Navigation Links (About & Contact) + Utilities (Account, Cart) -->
+                <div class="flex items-center space-x-4 sm:space-x-6">
+                    
+                    <!-- Desktop Right Nav Links -->
+                    <nav class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-mono uppercase tracking-[0.18em]">
+                        <a href="{{ route('about') }}"
+                            class="transition-colors pb-0.5 {{ request()->routeIs('about') ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            About Us
+                        </a>
+                        <a href="{{ route('contact') }}"
+                            class="transition-colors pb-0.5 {{ request()->routeIs('contact') ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            Contact
+                        </a>
+                    </nav>
+
+                    <div class="h-4 w-px bg-stone-300 hidden lg:block"></div>
 
                     <!-- Account / Auth -->
                     @auth
                         <div class="relative" id="user-dropdown-wrapper">
-                            <button id="user-dropdown-btn" type="button" class="flex items-center space-x-1.5 text-matcha-900 hover:text-matcha-600 py-2 focus:outline-none">
+                            <button id="user-dropdown-btn" type="button" class="flex items-center space-x-1.5 text-stone-900 hover:text-matcha-700 py-2 focus:outline-none transition-colors">
                                 <i data-lucide="user-check" class="w-5 h-5"></i>
                                 <span
-                                    class="text-xs font-medium uppercase tracking-wider hidden lg:inline">{{ auth()->user()->first_name ?? 'Account' }}</span>
+                                    class="text-[11px] font-mono uppercase tracking-wider hidden xl:inline">{{ auth()->user()->first_name ?? 'Account' }}</span>
                                 <i data-lucide="chevron-down" id="user-dropdown-chevron" class="w-3.5 h-3.5 transition-transform duration-200"></i>
                             </button>
                             <div id="user-dropdown-menu"
-                                class="absolute right-0 w-48 mt-1 py-2 bg-white rounded-xl shadow-xl border border-stone-200 hidden transition-all z-50">
+                                class="absolute right-0 w-52 mt-2 py-2 bg-white rounded-xl shadow-xl border border-stone-200 hidden transition-all z-50">
                                 @if (auth()->user()->isAdmin())
                                     <a href="{{ route('admin.dashboard') }}"
-                                        class="flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-800 bg-amber-50 hover:bg-amber-100">
+                                        class="flex items-center px-4 py-2 text-xs font-mono uppercase tracking-wider text-amber-800 bg-amber-50 hover:bg-amber-100">
                                         <i data-lucide="shield-alert" class="w-4 h-4 mr-2"></i> Admin Panel
                                     </a>
                                     <hr class="my-1 border-stone-100">
                                 @endif
                                 <button type="button" onclick="openCustomerProfileModal()"
-                                    class="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition-colors">
+                                    class="w-full text-left flex items-center px-4 py-2 text-xs font-mono uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition-colors">
                                     <i data-lucide="user-pen" class="w-4 h-4 mr-2 text-matcha-700"></i> Account Details
                                 </button>
                                 <a href="{{ route('orders.my_orders') }}"
-                                    class="flex items-center px-4 py-2 text-xs uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition-colors">
+                                    class="flex items-center px-4 py-2 text-xs font-mono uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition-colors">
                                     <i data-lucide="package" class="w-4 h-4 mr-2 text-stone-500"></i> My Orders
                                 </a>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button type="submit"
-                                        class="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-rose-700 hover:bg-rose-50 transition-colors">
+                                        class="w-full text-left flex items-center px-4 py-2 text-xs font-mono uppercase tracking-wider text-rose-700 hover:bg-rose-50 transition-colors">
                                         <i data-lucide="log-out" class="w-4 h-4 mr-2"></i> Logout
                                     </button>
                                 </form>
@@ -215,76 +242,83 @@
                         </div>
                     @else
                         <a href="{{ route('login') }}"
-                            class="flex items-center space-x-1 text-matcha-900 hover:text-matcha-600 transition-colors py-2"
+                            class="flex items-center space-x-1 text-stone-900 hover:text-matcha-700 transition-colors py-2"
                             title="Login / Register">
                             <i data-lucide="user" class="w-5 h-5"></i>
-                            <span class="text-xs font-medium uppercase tracking-wider hidden lg:inline">Sign In</span>
+                            <span class="text-[11px] font-mono uppercase tracking-wider hidden xl:inline">Sign In</span>
                         </a>
                     @endauth
 
                     <!-- Cart Drawer / Link -->
                     @php
                         $cartItems = session()->get('cart', []);
-                        $cartCount = count($cartItems); // Count unique items as 1 regardless of quantity
+                        $cartCount = count($cartItems);
                     @endphp
                     <button type="button" onclick="openCartDrawer()"
-                        class="relative text-matcha-900 hover:text-matcha-600 transition-colors p-2 flex items-center"
+                        class="relative text-stone-900 hover:text-matcha-700 transition-colors p-2 flex items-center"
                         title="Shopping Cart" aria-label="Open Shopping Bag">
                         <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                         <span id="global-cart-badge"
-                            class="{{ $cartCount > 0 ? '' : 'hidden' }} absolute -top-0.5 -right-0.5 bg-matcha-700 text-cream-50 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-cream-100 shadow-sm">
+                            class="{{ $cartCount > 0 ? '' : 'hidden' }} absolute -top-0.5 -right-0.5 bg-matcha-800 text-cream-50 text-[10px] font-mono font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                             {{ $cartCount }}
                         </span>
                     </button>
 
-                    <!-- Mobile Menu Toggle -->
-                    <button id="mobile-menu-btn" class="md:hidden text-matcha-900 p-2">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
                 </div>
 
             </div>
         </div>
 
-        <!-- Mobile Nav Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200 px-6 py-4 space-y-3">
-            <a href="{{ route('home') }}"
-                class="block text-sm font-medium text-stone-900 py-1.5">Home</a>
-            <a href="{{ route('shop.index') }}"
-                class="block text-sm font-medium text-stone-900 py-1.5">Matcha</a>
-            <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
-                class="block text-sm font-medium text-stone-900 py-1.5">Single Origin Matcha</a>
-            <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
-                class="block text-sm font-medium text-stone-900 py-1.5">Matcha Blends</a>
-            <a href="{{ route('about') }}"
-                class="block text-sm font-medium text-stone-900 py-1.5">About Us</a>
-            <a href="{{ route('contact') }}"
-                class="block text-sm font-medium text-stone-900 py-1.5">Contact</a>
+        <!-- Mobile Nav Menu Drawer/Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-stone-200 px-6 py-6 space-y-4">
+            <div class="space-y-3 font-mono text-xs uppercase tracking-[0.2em]">
+                <a href="{{ route('home') }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request()->routeIs('home') && !request()->has('category') ? 'font-bold text-matcha-800' : '' }}">
+                    Home
+                </a>
+                <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request('category') === 'single-origin-matcha' ? 'font-bold text-matcha-800' : '' }}">
+                    Singles Origin
+                </a>
+                <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request('category') === 'matcha-blends' ? 'font-bold text-matcha-800' : '' }}">
+                    Matcha Blends
+                </a>
+                <a href="{{ route('about') }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request()->routeIs('about') ? 'font-bold text-matcha-800' : '' }}">
+                    About Us
+                </a>
+                <a href="{{ route('contact') }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request()->routeIs('contact') ? 'font-bold text-matcha-800' : '' }}">
+                    Contact
+                </a>
+            </div>
+
             @auth
-                <div class="pt-3 border-t border-stone-200 space-y-1.5">
+                <div class="pt-4 border-t border-stone-200 space-y-2 font-mono text-xs uppercase tracking-wider">
                     <button type="button" onclick="openCustomerProfileModal()"
-                        class="w-full text-left flex items-center text-sm font-medium text-stone-900 py-1.5">
+                        class="w-full text-left flex items-center py-2 text-stone-800 hover:text-matcha-700">
                         <i data-lucide="user-pen" class="w-4 h-4 mr-2 text-matcha-700"></i> Account Details
                     </button>
                     <a href="{{ route('orders.my_orders') }}"
-                        class="flex items-center text-sm font-medium text-matcha-700 py-1.5">
-                        <i data-lucide="package" class="w-4 h-4 mr-2"></i> My Orders
+                        class="flex items-center py-2 text-stone-800 hover:text-matcha-700">
+                        <i data-lucide="package" class="w-4 h-4 mr-2 text-stone-500"></i> My Orders
                     </a>
                     @if (auth()->user()->isAdmin())
                         <a href="{{ route('admin.dashboard') }}"
-                            class="block text-sm font-bold uppercase tracking-wider text-amber-800 py-1.5">Go to Admin
-                            Dashboard</a>
+                            class="block py-2 font-bold text-amber-800">Admin Dashboard</a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="pt-2">
                         @csrf
-                        <button type="submit" class="text-xs uppercase tracking-wider text-rose-700 font-semibold">Sign
-                            Out</button>
+                        <button type="submit" class="text-rose-700 font-semibold py-1">Sign Out</button>
                     </form>
                 </div>
             @else
-                <div class="pt-3 border-t border-stone-200">
+                <div class="pt-4 border-t border-stone-200">
                     <a href="{{ route('login') }}"
-                        class="block text-sm font-medium text-stone-900 py-1.5">Login / Register</a>
+                        class="block py-2 text-xs font-mono uppercase tracking-wider text-matcha-800 font-bold">
+                        Sign In / Register
+                    </a>
                 </div>
             @endauth
         </div>
@@ -321,7 +355,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-stone-200 mt-20 text-stone-800">
+    <footer class="bg-white border-t border-stone-200 text-stone-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
                 <!-- Stay Connected Text -->

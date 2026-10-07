@@ -1,137 +1,294 @@
 @extends('layouts.app')
 
-@section('title', 'Coffee Base Philippines | Japanese Artisanal Matcha & Single Origin Reserves')
+@section('title', 'Coffee Base Philippines | Artisanal Japanese Matcha & Single Origin Reserves')
+@section('meta_description',
+    'Kyoto & Nishio single origin matcha and artisanal blends in the Philippines. Transparent
+    terroir, cultivars, and stone-milled ceremonial quality.')
 
 @section('content')
 
-    <!-- Hero Banner Section -->
+    <!-- =========================================================================
+             SECTION 1: HERO FULL-BLEED PHOTO / VIDEO WITH "OUR MATCHA" TEXT
+             ========================================================================= -->
     <section
-        class="relative w-full min-h-[420px] sm:min-h-[480px] lg:min-h-[540px] flex items-center justify-center overflow-hidden bg-stone-950 border-b border-cream-300/40">
-        <!-- Background Image with Overlay -->
+        class="relative w-full min-h-[92svh] lg:min-h-[96svh] flex flex-col items-center justify-center overflow-hidden bg-stone-950 text-white border-b border-stone-800">
+
+        <!-- Full-bleed background video / image -->
         <div class="absolute inset-0 z-0">
-            <img src="/uploads/banner.jpg" alt="Japanese Matcha & Specialty Coffee, Selected by COFFEE BASE."
-                class="w-full h-full object-cover object-center">
-            <div class="absolute inset-0 bg-black/40"></div>
+            <video class="w-full h-full object-cover opacity-90 scale-100" autoplay muted loop playsinline preload="auto"
+                poster="/uploads/Nishio,%20Aichi.jpg">
+                <source src="/uploads/video1.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-black/35"></div>
         </div>
 
-        <!-- Centered Content -->
-        <div class="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 py-20 text-center text-white space-y-8">
-            <h1
-                class="text-2xl sm:text-4xl md:text-5xl lg:text-[46px] font-sans font-bold tracking-tight text-white leading-tight drop-shadow-md">
-                Japanese Matcha &amp; Specialty Coffee, Selected by COFFEE BASE.
+        <!-- Centered Sabo-style Editorial Overlay -->
+        <div class="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 py-16 text-center space-y-6 sm:space-y-8">
+
+            <p class="text-xs font-mono uppercase tracking-[0.3em] text-cream-200/90 font-bold">
+                OUR MATCHA
+            </p>
+
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold tracking-[-0.03em] leading-tight text-white">
+                Quality starts at the tea garden.
             </h1>
 
-            <div>
-                <a href="{{ route('shop.index') }}"
-                    class="inline-block px-8 py-3 rounded-xl border border-white/80 text-white text-xs sm:text-sm font-sans font-medium tracking-wide bg-stone-900/60 hover:bg-white hover:text-stone-950 backdrop-blur-sm transition-all duration-300 shadow-sm hover:shadow-lg">
-                    Shop Matcha
+            <div class="max-w-2xl mx-auto text-xs sm:text-sm md:text-base font-light text-cream-100/90 leading-relaxed">
+                <p>
+                    The flavour and character of matcha depend on its origin, cultivar, shading, harvest, and processing. We
+                    carefully select our matcha from trusted tea-growing regions in Japan, including Uji, Nishio, Yame,
+                    Kagoshima, and Shizuoka.
+                </p>
+            </div>
+
+            <!-- Regional Badges -->
+            <div
+                class="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-cream-100">
+                <span class="px-3.5 py-1.5 bg-white/15 backdrop-blur-md rounded-full border border-white/25">Uji (宇治)</span>
+                <span class="px-3.5 py-1.5 bg-white/15 backdrop-blur-md rounded-full border border-white/25">Nishio
+                    (西尾)</span>
+                <span class="px-3.5 py-1.5 bg-white/15 backdrop-blur-md rounded-full border border-white/25">Yame
+                    (八女)</span>
+                <span class="px-3.5 py-1.5 bg-white/15 backdrop-blur-md rounded-full border border-white/25">Kagoshima
+                    (鹿児島)</span>
+                <span class="px-3.5 py-1.5 bg-white/15 backdrop-blur-md rounded-full border border-white/25">Shizuoka
+                    (静岡)</span>
+            </div>
+
+            <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
+                <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
+                    class="px-8 py-3.5 bg-white text-stone-950 hover:bg-cream-200 text-xs font-mono font-semibold uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl">
+                    Explore Singles Origin
                 </a>
+                <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
+                    class="px-8 py-3.5 border border-white/70 text-white hover:bg-white/15 backdrop-blur-xs text-xs font-mono font-semibold uppercase tracking-[0.2em] transition-all">
+                    Discover Blends
+                </a>
+            </div>
+
+            <div class="pt-4">
+                <span class="inline-block text-[10px] font-mono uppercase tracking-[0.25em] text-white/60">
+                    Scroll Down &darr;
+                </span>
             </div>
         </div>
     </section>
 
+    <!-- =========================================================================
+             SECTION 2: FULL-WIDTH EDITORIAL PHOTO 1 (NISHIO TEA GARDEN CANOPY)
+             ========================================================================= -->
+    <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
+        <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
+            <img src="/uploads/250509_NISHIO_132104.jpg" alt="Nishio Shaded Tea Farm Plantation"
+                class="w-full h-full object-cover object-center">
+            <div
+                class="absolute bottom-4 left-6 sm:left-12 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-white/90 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded">
+                01 / Nishio, Aichi Prefecture — Shaded Tencha Canopy
+            </div>
+        </div>
+    </div>
 
+    <!-- =========================================================================
+             SECTION 3: GRADES (EDITORIAL TEXT & 2-COLUMN CLASSIFICATION)
+             ========================================================================= -->
+    <section class="py-20 sm:py-28 bg-white border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
 
-    <!-- Featured Products Showcase -->
-    <section class="py-20 bg-white border-b border-stone-200/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between mb-12">
-                <h2 class="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-stone-950">Featured Products</h2>
-                <a href="{{ route('shop.index') }}"
-                    class="text-xs font-semibold uppercase tracking-widest text-stone-700 hover:text-stone-950 flex items-center gap-1 group">
-                    <span>View All</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                </a>
+            <div class="text-center max-w-2xl mx-auto mb-14 sm:mb-20 space-y-3">
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-matcha-800 font-bold">
+                    GRADES
+                </p>
+                <h2 class="text-3xl sm:text-5xl font-serif font-bold tracking-tight text-stone-950">
+                    Understanding Our Matcha Grades
+                </h2>
+                <p class="text-xs sm:text-sm text-stone-600 font-light">
+                    Clear transparency on harvest flush, flavor character, and intended preparation.
+                </p>
             </div>
 
-            @if ($featuredProducts->isEmpty())
-                <div class="text-center py-16 bg-stone-50/80 rounded-2xl border border-stone-200/80 p-8">
-                    <i data-lucide="leaf" class="w-12 h-12 text-matcha-400 mx-auto mb-3"></i>
-                    <h3 class="text-lg sm:text-xl font-sans font-bold tracking-tight text-stone-800">No Featured Matcha Found</h3>
-                    <p class="text-xs text-stone-500 mt-1.5 font-light">Check back soon or explore our complete catalog.</p>
-                    <a href="{{ route('shop.index') }}" class="inline-block mt-5 px-6 py-2.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-wider rounded-xl shadow-xs transition-colors">
-                        Browse Catalog
-                    </a>
-                </div>
-            @else
-                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-                    @foreach ($featuredProducts as $product)
-                        @php
-                            $isSoldOut = $product->is_sold_out;
-                            $minPrice = $product->min_price;
-                            $productData = [
-                                'id' => $product->id,
-                                'name' => $product->name,
-                                'slug' => $product->slug,
-                                'image' => $product->primary_image ?: '/uploads/products/samidori.jpg',
-                                'variants' => $product->variants->map(fn($v) => [
-                                    'id' => $v->id,
-                                    'weight' => $v->weight,
-                                    'price' => (float)$v->price,
-                                    'compare_at_price' => $v->compare_at_price ? (float)$v->compare_at_price : null,
-                                    'is_sold_out' => (bool)($v->is_sold_out || $v->stock_quantity <= 0),
-                                ])->values()
-                            ];
-                        @endphp
-                        <div class="group block text-left">
-                            <!-- Product Image -->
-                            <div class="aspect-square bg-stone-50 rounded-2xl overflow-hidden relative mb-4 flex items-center justify-center p-2">
-                                <a href="{{ route('shop.show', $product->slug) }}" class="w-full h-full flex items-center justify-center">
-                                    <img src="{{ $product->primary_image ?: '/uploads/products/samidori.jpg' }}"
-                                        alt="{{ $product->name }}"
-                                        class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 {{ $isSoldOut ? 'opacity-60 grayscale-[30%]' : '' }}">
-                                </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14 max-w-5xl mx-auto">
 
-                                @if ($isSoldOut)
-                                    <span class="absolute top-3 left-3 bg-stone-900 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded pointer-events-none">
-                                        Sold Out
-                                    </span>
-                                @endif
-
-                                <!-- Floating Quick Add Button (Bottom Right) -->
-                                <button type="button"
-                                    onclick="openQuickAddModal({{ json_encode($productData) }})"
-                                    class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white text-stone-900 border border-stone-200/90 shadow-md hover:shadow-lg hover:scale-110 active:scale-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
-                                    title="Quick Add {{ $product->name }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-stone-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Product Title -->
-                            <h3 class="text-sm sm:text-base font-sans font-normal text-stone-900 group-hover:text-matcha-800 transition-colors leading-snug line-clamp-2">
-                                <a href="{{ route('shop.show', $product->slug) }}">
-                                    {{ $product->name }}
-                                </a>
-                            </h3>
-
-                            <!-- Product Price -->
-                            <p class="text-sm font-sans font-semibold text-stone-950 mt-1.5">
-                                ₱{{ number_format($minPrice, 2) }}
-                            </p>
+                <!-- PREMIUM Card -->
+                <div
+                    class="bg-[#fbfaf6] border border-stone-200 rounded-2xl p-8 sm:p-12 space-y-6 flex flex-col justify-between hover:border-stone-400 transition-all duration-300 hover:shadow-xl">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-stone-200 pb-4">
+                            <span
+                                class="text-[10px] font-mono uppercase tracking-[0.2em] px-3 py-1 bg-stone-950 text-white rounded font-semibold">
+                                First-Flush Leaves
+                            </span>
+                            <span class="text-xs font-mono text-stone-500">№ 01</span>
                         </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-    </section>
+                        <h3 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-stone-950">
+                            PREMIUM
+                        </h3>
+                        <p class="text-xs sm:text-sm md:text-base text-stone-700 font-light leading-relaxed">
+                            Made from first-flush leaves, carefully selected for a smooth, vibrant and naturally rich
+                            flavour. Enjoy it straight or use it for premium matcha drinks.
+                        </p>
+                    </div>
 
-    <!-- From Kyoto to the Philippines Section -->
-    <section id="about" class="py-24 sm:py-32 bg-white text-center">
-        <div class="max-w-4xl mx-auto px-6 sm:px-8 space-y-8">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-stone-950">
-                From Kyoto to the Philippines
-            </h2>
-            <div class="max-w-2xl mx-auto space-y-6 text-xs sm:text-sm text-stone-700 leading-relaxed font-light">
-                <p>
-                    COFFEE BASE is a Kyoto-born specialty coffee brand bringing carefully selected Japanese matcha and specialty coffee to the Philippines.
-                </p>
-                <p>
-                    We clearly present each matcha's origin, cultivar, harvest, milling method and grade, helping you choose the right matcha for your cup or café.
-                </p>
+                    <div class="pt-6 border-t border-stone-200 flex items-center justify-between font-mono text-xs">
+                        <span class="text-stone-500 uppercase tracking-wider text-[11px]">Usucha • Straight • Cold
+                            Whisk</span>
+                    </div>
+                </div>
+
+                <!-- BARISTA Card -->
+                <div
+                    class="bg-[#fbfaf6] border border-stone-200 rounded-2xl p-8 sm:p-12 space-y-6 flex flex-col justify-between hover:border-stone-400 transition-all duration-300 hover:shadow-xl">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-stone-200 pb-4">
+                            <span
+                                class="text-[10px] font-mono uppercase tracking-[0.2em] px-3 py-1 bg-stone-950 text-white rounded font-semibold">
+                                First &amp; Second Flush Blend
+                            </span>
+                            <span class="text-xs font-mono text-stone-500">№ 02</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-stone-950">
+                            BARISTA
+                        </h3>
+                        <p class="text-xs sm:text-sm md:text-base text-stone-700 font-light leading-relaxed">
+                            A carefully balanced blend of first- and second-flush leaves, offering great flavour at a more
+                            approachable price. Ideal for lattes, milk-based drinks and creative beverages.
+                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-stone-200 flex items-center justify-between font-mono text-xs">
+                        <span class="text-stone-500 uppercase tracking-wider text-[11px]">Lattes • Plant Milk •
+                            Pastry</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
+
+    <!-- =========================================================================
+             SECTION 4: FULL-WIDTH EDITORIAL PHOTO 2 (KOKAEN STONE MILLING & PROCESSING)
+             ========================================================================= -->
+    <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
+        <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
+            <img src="/uploads/260417_KOKAEN_133240.jpg" alt="Traditional Japanese Tea Finishing and Stone Mill Facility"
+                class="w-full h-full object-cover object-center">
+            <div
+                class="absolute bottom-4 left-6 sm:left-12 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-white/90 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded">
+                02 / Kokaen, Kyoto — Artisanal Finishing &amp; Sorting
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+             SECTION 5: CURATED COLLECTIONS (SINGLES ORIGIN & MATCHA BLENDS)
+             ========================================================================= -->
+    <section class="py-20 sm:py-28 bg-[#fbfaf6] border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+
+            <div class="max-w-3xl mb-14 sm:mb-20 space-y-3">
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-matcha-800 font-bold">Collections</p>
+                <h2 class="text-3xl sm:text-5xl font-serif font-bold tracking-tight text-stone-950">
+                    Singles Origin &amp; Master Blends
+                </h2>
+                <p class="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
+                    Explore single cultivar nuance or perfectly calibrated blends for beverage craft.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+
+                <!-- Card 1: Singles Origin -->
+                <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
+                    class="group block bg-white border border-stone-200 rounded-2xl overflow-hidden hover:border-stone-400 transition-all duration-500 hover:shadow-2xl">
+                    <div class="aspect-[16/10] overflow-hidden relative bg-stone-100">
+                        <img src="/uploads/Nishio,%20Aichi.jpg" alt="Singles Origin Matcha"
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                        <span
+                            class="absolute top-4 left-4 px-3 py-1 bg-white/95 backdrop-blur-xs text-stone-950 font-mono text-[10px] uppercase tracking-[0.2em] font-bold rounded">
+                            № 01 / Single Cultivars
+                        </span>
+                    </div>
+                    <div class="p-6 sm:p-10 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3
+                                class="text-2xl font-serif font-bold text-stone-950 group-hover:text-matcha-800 transition-colors">
+                                Singles Origin Matcha
+                            </h3>
+                            <span
+                                class="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-stone-800 group-hover:bg-stone-950 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
+                            Unblended single-cultivar micro-lots capturing pure terroir nuance from Nishio and Kagoshima
+                            (Samidori, Okumidori, Yabukita).
+                        </p>
+                    </div>
+                </a>
+
+                <!-- Card 2: Matcha Blends -->
+                <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
+                    class="group block bg-white border border-stone-200 rounded-2xl overflow-hidden hover:border-stone-400 transition-all duration-500 hover:shadow-2xl">
+                    <div class="aspect-[16/10] overflow-hidden relative bg-stone-100">
+                        <img src="/uploads/KAGOSHIMA.jpg" alt="Matcha Blends"
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                        <span
+                            class="absolute top-4 left-4 px-3 py-1 bg-white/95 backdrop-blur-xs text-stone-950 font-mono text-[10px] uppercase tracking-[0.2em] font-bold rounded">
+                            № 02 / Master Blends
+                        </span>
+                    </div>
+                    <div class="p-6 sm:p-10 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3
+                                class="text-2xl font-serif font-bold text-stone-950 group-hover:text-matcha-800 transition-colors">
+                                Matcha Blends
+                            </h3>
+                            <span
+                                class="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-stone-800 group-hover:bg-stone-950 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
+                            Formulated by tea masters combining multiple harvests to achieve rich body, deep color, and
+                            smooth sweetness in milk lattes and beverages.
+                        </p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+             SECTION 6: FULL-WIDTH EDITORIAL PHOTO 3 (KAGOSHIMA VOLCANIC FIELDS)
+             ========================================================================= -->
+    <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
+        <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
+            <img src="/uploads/260422_KAGOSHIMA_094548.jpg" alt="Kagoshima Organic Volcanic Tea Garden"
+                class="w-full h-full object-cover object-center">
+            <div
+                class="absolute bottom-4 left-6 sm:left-12 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-white/90 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded">
+                03 / Kagoshima Terroir — Volcanic Mineral Soil &amp; Abundant Sunshine
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+             SECTION 7: FULL-WIDTH CINEMATIC CRAFT VIDEO (WHISKING & STONE MILLING)
+             ========================================================================= -->
+    <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
+        <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
+            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto">
+                <source src="/uploads/video2.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-black/30 pointer-events-none"></div>
+            <div
+                class="absolute bottom-4 left-6 sm:left-12 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-white/90 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded">
+                04 / Granite Stone-Milled at 30g/hr &amp; Traditional Chasen Whisk
+            </div>
+        </div>
+    </div>
 
 @endsection
