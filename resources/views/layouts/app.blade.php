@@ -186,13 +186,13 @@
                     <a href="{{ route('home') }}" class="inline-flex items-center gap-2.5 sm:gap-3 group">
                         <img src="{{ asset('uploads/coffee-logo.png') }}" alt="Coffee Base Philippines Logo"
                             class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 object-contain group-hover:scale-105 transition-transform duration-300">
-                        <div class="flex flex-col items-start text-left">
+                        <div class="flex flex-col items-center text-center">
                             <span
                                 class="text-base sm:text-xl md:text-2xl font-serif font-bold tracking-[-0.03em] text-stone-950 uppercase group-hover:text-matcha-800 transition-colors leading-none">
                                 COFFEE BASE
                             </span>
                             <span
-                                class="text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-[0.35em] text-stone-500 uppercase mt-0.5 group-hover:text-stone-800 transition-colors leading-none">
+                                class="text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-[0.35em] pl-[0.35em] text-stone-500 uppercase mt-0.5 group-hover:text-stone-800 transition-colors leading-none text-center">
                                 Philippines
                             </span>
                         </div>

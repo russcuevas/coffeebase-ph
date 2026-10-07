@@ -291,4 +291,23 @@
         </div>
     </div>
 
+    <!-- =========================================================================
+             SECTION 8: BIR REGISTRATION & COMPLIANCE SEAL
+             ========================================================================= -->
+    <section class="py-12 sm:py-16 bg-[#fbfaf6] border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 text-center flex flex-col items-center justify-center space-y-4">
+            <p class="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-stone-500">
+                Official Business Registration &amp; Compliance
+            </p>
+            <div class="inline-block p-4 sm:p-6 md:p-8 bg-white rounded-3xl border border-stone-200 shadow-md max-w-3xl w-full">
+                <img src="{{ asset('uploads/bir-seal.jpg') }}" alt="BIR Registered Notice - Bureau of Internal Revenue"
+                    class="w-full h-auto object-contain mx-auto rounded-xl">
+            </div>
+            <p class="text-[11px] font-mono text-stone-400">
+                Registered with the Bureau of Internal Revenue (BIR Philippines)
+            </p>
+        </div>
+    </section>
+
 @endsection
+
