@@ -42,6 +42,7 @@ class AdminProductController extends Controller
             'storage' => 'nullable|string|max:500',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'badge' => 'nullable|string|max:50',
+            'bulk_discounts' => 'nullable|array',
             'is_featured' => 'nullable|boolean',
             'is_active' => 'nullable|boolean',
             // Variants
@@ -65,6 +66,23 @@ class AdminProductController extends Controller
             $imagePath = '/uploads/products/' . $fileName;
         }
 
+        $bulkDiscounts = [];
+        if ($request->has('bulk_discounts') && is_array($request->bulk_discounts)) {
+            foreach ($request->bulk_discounts as $tier) {
+                $minQty = isset($tier['min_qty']) ? (int)$tier['min_qty'] : 0;
+                $discountPercent = isset($tier['discount_percent']) ? (float)$tier['discount_percent'] : 0;
+                $label = !empty($tier['label']) ? trim($tier['label']) : null;
+                if ($minQty > 0 && $discountPercent > 0) {
+                    $bulkDiscounts[] = [
+                        'min_qty' => $minQty,
+                        'discount_percent' => $discountPercent,
+                        'label' => $label,
+                    ];
+                }
+            }
+            usort($bulkDiscounts, fn($a, $b) => $a['min_qty'] <=> $b['min_qty']);
+        }
+
         $product = Product::create([
             'category_id' => $validated['category_id'],
             'name' => $validated['name'],
@@ -81,6 +99,7 @@ class AdminProductController extends Controller
             'storage' => $validated['storage'] ?? null,
             'primary_image' => $imagePath,
             'badge' => $validated['badge'] ?? null,
+            'bulk_discounts' => !empty($bulkDiscounts) ? $bulkDiscounts : null,
             'is_featured' => $request->has('is_featured'),
             'is_active' => $request->has('is_active') ? true : false,
         ]);
@@ -127,6 +146,7 @@ class AdminProductController extends Controller
             'storage' => 'nullable|string|max:500',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'badge' => 'nullable|string|max:50',
+            'bulk_discounts' => 'nullable|array',
             'is_featured' => 'nullable|boolean',
             'is_active' => 'nullable|boolean',
             // Variants
@@ -151,6 +171,23 @@ class AdminProductController extends Controller
             $imagePath = '/uploads/products/' . $fileName;
         }
 
+        $bulkDiscounts = [];
+        if ($request->has('bulk_discounts') && is_array($request->bulk_discounts)) {
+            foreach ($request->bulk_discounts as $tier) {
+                $minQty = isset($tier['min_qty']) ? (int)$tier['min_qty'] : 0;
+                $discountPercent = isset($tier['discount_percent']) ? (float)$tier['discount_percent'] : 0;
+                $label = !empty($tier['label']) ? trim($tier['label']) : null;
+                if ($minQty > 0 && $discountPercent > 0) {
+                    $bulkDiscounts[] = [
+                        'min_qty' => $minQty,
+                        'discount_percent' => $discountPercent,
+                        'label' => $label,
+                    ];
+                }
+            }
+            usort($bulkDiscounts, fn($a, $b) => $a['min_qty'] <=> $b['min_qty']);
+        }
+
         $product->update([
             'category_id' => $validated['category_id'],
             'name' => $validated['name'],
@@ -166,6 +203,7 @@ class AdminProductController extends Controller
             'storage' => $validated['storage'] ?? null,
             'primary_image' => $imagePath,
             'badge' => $validated['badge'] ?? null,
+            'bulk_discounts' => !empty($bulkDiscounts) ? $bulkDiscounts : null,
             'is_featured' => $request->has('is_featured'),
             'is_active' => $request->has('is_active') ? true : false,
         ]);

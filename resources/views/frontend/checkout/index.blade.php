@@ -249,6 +249,9 @@
 
                     <div class="max-h-80 overflow-y-auto divide-y divide-stone-100 pr-1 space-y-3">
                         @foreach($cart as $item)
+                            @php
+                                $hasDiscount = !empty($item['discount_percent']) && $item['discount_percent'] > 0;
+                            @endphp
                             <div class="flex items-center justify-between pt-3 first:pt-0">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-12 h-12 rounded-lg bg-cream-100 overflow-hidden flex-shrink-0 border border-stone-200">
@@ -257,19 +260,43 @@
                                     <div>
                                         <p class="text-xs font-bold text-stone-900 leading-tight">{{ $item['name'] }}</p>
                                         <p class="text-[11px] font-mono text-matcha-800">{{ $item['weight'] }} × {{ $item['quantity'] }}</p>
+                                        @if($hasDiscount)
+                                            <span class="inline-block bg-emerald-50 text-emerald-800 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border border-emerald-200">
+                                                {{ $item['discount_percent'] }}% Bulk Tier Applied
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
-                                <span class="text-xs font-sans font-bold text-stone-900">
-                                    ₱{{ number_format($item['price'] * $item['quantity'], 2) }}
-                                </span>
+                                <div class="text-right">
+                                    <span class="text-xs font-sans font-bold text-stone-900 block font-mono">
+                                        ₱{{ number_format($item['line_total'], 2) }}
+                                    </span>
+                                    @if($hasDiscount && $item['line_savings'] > 0)
+                                        <span class="text-[9.5px] text-emerald-700 font-mono block">Saved ₱{{ number_format($item['line_savings'], 2) }}</span>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
                     </div>
 
                     <div class="space-y-2.5 pt-4 border-t border-stone-100 text-xs">
-                        <div class="flex justify-between text-lg font-sans font-bold text-matcha-950">
+                        @if(isset($totalSavings) && $totalSavings > 0)
+                            <div class="flex justify-between text-stone-600">
+                                <span>Original Subtotal</span>
+                                <span class="font-mono">₱{{ number_format($originalSubtotal, 2) }}</span>
+                            </div>
+                            <div class="flex justify-between text-emerald-700 font-bold bg-emerald-50 p-2 rounded-lg border border-emerald-200">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                    <span>Bulk Volume Discount</span>
+                                </span>
+                                <span class="font-mono">-₱{{ number_format($totalSavings, 2) }}</span>
+                            </div>
+                        @endif
+
+                        <div class="flex justify-between text-lg font-sans font-bold text-matcha-950 pt-1">
                             <span>Total Amount</span>
-                            <span>₱{{ number_format($total, 2) }}</span>
+                            <span class="font-mono">₱{{ number_format($total, 2) }}</span>
                         </div>
                         <p class="text-[11px] text-stone-500 bg-stone-50 p-2.5 rounded border border-stone-200 leading-relaxed">
                             <i data-lucide="truck" class="w-3.5 h-3.5 inline text-matcha-700 mr-1"></i>

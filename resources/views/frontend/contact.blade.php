@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
 @section('title', 'Contact Us | Coffee Base Philippines')
-@section('meta_description', 'Have a question about our products, your order or wholesale purchases? Connect with Coffee
+@section('meta_description',
+    'Have a question about our products, your order or wholesale purchases? Connect with Coffee
     Base Philippines on Facebook, Instagram, or through our contact form.')
 
 @section('content')
 
     <!-- ==========================================
-             CONTACT HERO VIDEO BANNER (SABO STYLE)
-             ========================================== -->
+                 CONTACT HERO VIDEO BANNER (SABO STYLE)
+                 ========================================== -->
     <section
         class="relative w-full min-h-[50svh] sm:min-h-[60svh] lg:min-h-[68svh] flex flex-col justify-end overflow-hidden bg-stone-950 text-white border-b border-stone-800">
 
@@ -86,7 +87,7 @@
                         </a>
 
                         <!-- Instagram Button (Theme Matched) -->
-                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        <a href="https://www.instagram.com/coffeebase.ph" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-matcha-900 text-cream-50 hover:bg-matcha-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm group"
                             title="Visit Instagram Profile">
                             <svg class="w-4 h-4 text-[#dcb35c] group-hover:text-white transition-colors" fill="currentColor"

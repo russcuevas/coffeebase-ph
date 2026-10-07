@@ -43,11 +43,19 @@
                                         <a href="{{ route('admin.products.edit', $product->id) }}" class="font-bold text-stone-900 text-sm hover:text-matcha-800 transition-colors block">
                                             {{ $product->name }}
                                         </a>
-                                        @if($product->badge)
-                                            <span class="inline-block mt-0.5 px-2 py-0.5 rounded-full bg-matcha-100 text-matcha-800 text-[9px] font-bold uppercase tracking-wider border border-matcha-200">
-                                                {{ $product->badge }}
-                                            </span>
-                                        @endif
+                                        <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                                            @if($product->badge)
+                                                <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-100 text-matcha-800 text-[9px] font-bold uppercase tracking-wider border border-matcha-200">
+                                                    {{ $product->badge }}
+                                                </span>
+                                            @endif
+                                            @if($product->has_bulk_discount)
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-900 text-[9.5px] font-mono font-semibold border border-amber-200">
+                                                    <i data-lucide="percent" class="w-2.5 h-2.5 text-amber-600"></i>
+                                                    <span>{{ count($product->sorted_bulk_discounts) }} Bulk Tiers (Up to {{ $product->max_bulk_discount_percent }}% OFF)</span>
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </td>

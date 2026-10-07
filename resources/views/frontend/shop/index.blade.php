@@ -169,6 +169,13 @@
                                     </span>
                                 @endif
 
+                                @if($product->has_bulk_discount && !$isSoldOut)
+                                    <span class="absolute top-2.5 right-2.5 bg-amber-500/90 backdrop-blur-xs text-stone-950 text-[8.5px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs flex items-center gap-1">
+                                        <i data-lucide="percent" class="w-2.5 h-2.5"></i>
+                                        <span>Bulk: Up to {{ $product->max_bulk_discount_percent }}% OFF</span>
+                                    </span>
+                                @endif
+
                                 <!-- Quick Add Button -->
                                 <button type="button"
                                     onclick="openQuickAddModal({{ json_encode($productData) }})"
@@ -179,7 +186,7 @@
                             </div>
 
                             <!-- Product Details -->
-                            <div class="space-y-1">
+                            <div class="space-y-1.5">
                                 <p class="text-[10px] font-mono uppercase tracking-[0.15em] text-stone-500">
                                     {{ $product->origin ?? 'Kyoto / Aichi, Japan' }}
                                 </p>
@@ -188,6 +195,7 @@
                                         {{ $product->name }}
                                     </a>
                                 </h3>
+
                                 <div class="flex items-center justify-between pt-1">
                                     <p class="text-xs sm:text-sm font-mono font-semibold text-stone-950">
                                         ₱{{ number_format($minPrice, 2) }}
@@ -198,6 +206,13 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                @if($product->has_bulk_discount)
+                                    <div class="pt-1 border-t border-stone-100 flex items-center gap-1.5 text-[10px] text-amber-900 font-mono">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        <span class="truncate">{{ $product->sorted_bulk_discounts[0]['label'] ?? 'Bulk discount available' }}</span>
+                                    </div>
+                                @endif
                             </div>
 
                         </div>

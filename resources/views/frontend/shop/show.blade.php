@@ -69,6 +69,10 @@
                             <span id="display-compare-price" class="text-sm line-through text-stone-400 font-mono hidden">
                             </span>
                         </div>
+                        <div id="bulk-discount-active-badge" class="hidden mt-1 text-xs font-mono font-bold text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded inline-flex items-center gap-1 border border-emerald-300">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i>
+                            <span id="bulk-discount-active-text">10% Bulk Discount Applied!</span>
+                        </div>
                     </div>
 
                     <!-- Stock Status Pill -->
@@ -83,6 +87,45 @@
                 <p class="text-sm text-stone-600 leading-relaxed font-light">
                     {{ $product->description }}
                 </p>
+
+                @if($product->has_bulk_discount)
+                    <!-- Bulk / Volume Pricing Tier Card -->
+                    <div class="bg-amber-50/40 rounded-2xl border border-amber-200/80 p-5 sm:p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center font-bold text-xs shadow-xs">
+                                    <i data-lucide="percent" class="w-4 h-4"></i>
+                                </span>
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-950">Volume Bulk Pricing Tiers</h4>
+                                    <p class="text-[11px] text-amber-800/80 font-light">Buy more to enjoy automatic discounted unit prices</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-mono uppercase tracking-wider text-amber-900 bg-amber-100 px-2 py-0.5 rounded font-semibold">
+                                Instant Savings
+                            </span>
+                        </div>
+
+                        <!-- Tiers Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1" id="bulk-tiers-list">
+                            @foreach($product->sorted_bulk_discounts as $tIndex => $tier)
+                                <button type="button"
+                                    onclick="applyTierQty({{ (int)$tier['min_qty'] }})"
+                                    data-min-qty="{{ $tier['min_qty'] }}"
+                                    data-discount="{{ $tier['discount_percent'] }}"
+                                    class="bulk-tier-btn p-3 rounded-xl border border-amber-200 bg-white hover:border-amber-400 hover:bg-amber-50/60 transition-all text-left group">
+                                    <div class="flex items-center justify-between text-xs font-bold text-amber-950">
+                                        <span>{{ $tier['min_qty'] }}+ units</span>
+                                        <span class="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[10px] font-mono border border-emerald-200">-{{ $tier['discount_percent'] }}%</span>
+                                    </div>
+                                    <p class="text-[10.5px] text-stone-500 mt-1 truncate">
+                                        {{ $tier['label'] ?? "{$tier['min_qty']}+ pcs bulk tier" }}
+                                    </p>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Add to Cart Form with Variant Selector -->
                 <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form" class="space-y-6 pt-4 border-t border-stone-200">
@@ -140,7 +183,7 @@
                                 <button type="button" onclick="decrementQty()" class="px-3 py-2 text-stone-500 hover:bg-stone-100 transition-colors">
                                     <i data-lucide="minus" class="w-4 h-4"></i>
                                 </button>
-                                <input type="number" id="quantity-input" name="quantity" value="1" min="1" max="99" class="w-full text-center text-sm font-semibold text-stone-900 focus:outline-none py-2">
+                                <input type="number" id="quantity-input" name="quantity" value="1" min="1" max="999" oninput="onQuantityChange()" class="w-full text-center text-sm font-semibold text-stone-900 focus:outline-none py-2 font-mono">
                                 <button type="button" onclick="incrementQty()" class="px-3 py-2 text-stone-500 hover:bg-stone-100 transition-colors">
                                     <i data-lucide="plus" class="w-4 h-4"></i>
                                 </button>
@@ -312,6 +355,9 @@
 
 @section('scripts')
 <script>
+    const bulkTiers = @json($product->sorted_bulk_discounts);
+    let currentBasePrice = {{ (float)($product->default_variant->price ?? $product->min_price) }};
+
     function changeMainImage(src) {
         document.getElementById('main-product-image').src = src;
     }
@@ -319,12 +365,73 @@
     function incrementQty() {
         const input = document.getElementById('quantity-input');
         input.value = parseInt(input.value || 1) + 1;
+        onQuantityChange();
     }
 
     function decrementQty() {
         const input = document.getElementById('quantity-input');
         if (parseInt(input.value) > 1) {
             input.value = parseInt(input.value) - 1;
+            onQuantityChange();
+        }
+    }
+
+    function applyTierQty(minQty) {
+        const input = document.getElementById('quantity-input');
+        input.value = minQty;
+        onQuantityChange();
+    }
+
+    function onQuantityChange() {
+        const input = document.getElementById('quantity-input');
+        let qty = parseInt(input.value) || 1;
+        if (qty < 1) qty = 1;
+
+        let activeTier = null;
+        if (bulkTiers && bulkTiers.length > 0) {
+            for (let i = 0; i < bulkTiers.length; i++) {
+                if (qty >= parseInt(bulkTiers[i].min_qty)) {
+                    activeTier = bulkTiers[i];
+                }
+            }
+        }
+
+        // Highlight matching tier buttons
+        document.querySelectorAll('.bulk-tier-btn').forEach(btn => {
+            const minQty = parseInt(btn.getAttribute('data-min-qty'));
+            if (activeTier && minQty === parseInt(activeTier.min_qty)) {
+                btn.className = 'bulk-tier-btn p-3 rounded-xl border-2 border-emerald-600 bg-emerald-50/80 shadow-xs transition-all text-left';
+            } else {
+                btn.className = 'bulk-tier-btn p-3 rounded-xl border border-amber-200 bg-white hover:border-amber-400 hover:bg-amber-50/60 transition-all text-left';
+            }
+        });
+
+        // Price calculations
+        const displayPriceEl = document.getElementById('display-price');
+        const compareEl = document.getElementById('display-compare-price');
+        const activeBadge = document.getElementById('bulk-discount-active-badge');
+        const activeText = document.getElementById('bulk-discount-active-text');
+
+        if (activeTier && activeTier.discount_percent > 0) {
+            const discountPercent = parseFloat(activeTier.discount_percent);
+            const discountedPrice = Math.round(currentBasePrice * (1 - (discountPercent / 100)) * 100) / 100;
+            const totalSavings = (currentBasePrice - discountedPrice) * qty;
+
+            displayPriceEl.innerText = '₱' + discountedPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            compareEl.innerText = '₱' + currentBasePrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            compareEl.classList.remove('hidden');
+
+            if (activeBadge && activeText) {
+                activeText.innerText = `${discountPercent}% Bulk Tier Applied (Save ₱${totalSavings.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`;
+                activeBadge.classList.remove('hidden');
+                activeBadge.classList.add('inline-flex');
+            }
+        } else {
+            displayPriceEl.innerText = '₱' + currentBasePrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            if (activeBadge) {
+                activeBadge.classList.add('hidden');
+                activeBadge.classList.remove('inline-flex');
+            }
         }
     }
 
@@ -345,20 +452,14 @@
         const compare = btn.getAttribute('data-compare');
         const isSoldOut = btn.getAttribute('data-sold-out') === '1';
 
+        currentBasePrice = price;
+
         // Update hidden input
         document.getElementById('selected-variant-id').value = variantId;
         document.getElementById('selected-weight-label').innerText = weight;
 
-        // Update price display
-        document.getElementById('display-price').innerText = '₱' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        
-        const compareEl = document.getElementById('display-compare-price');
-        if (compare && parseFloat(compare) > price) {
-            compareEl.innerText = '₱' + parseFloat(compare).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            compareEl.classList.remove('hidden');
-        } else {
-            compareEl.classList.add('hidden');
-        }
+        // Re-run quantity change to calculate with new base price
+        onQuantityChange();
 
         // Update stock badge and button
         const badge = document.getElementById('stock-badge');

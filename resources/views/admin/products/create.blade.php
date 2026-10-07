@@ -104,13 +104,13 @@
                     </div>
                 </div>
 
-                <!-- Weight Variants & Pricing (Dynamic Multiple Weights like 30g, 100g, 1kg Wholesale) -->
+                <!-- Weight Variants & Pricing (Dynamic Multiple Weights like 30g, 100g, 1kg) -->
                 <div class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-4">
                     <div class="flex justify-between items-center pb-3 border-b border-stone-100">
                         <div>
                             <h3 class="text-sm font-bold uppercase tracking-wider text-matcha-950 flex items-center gap-2">
                                 <i data-lucide="scale" class="w-4 h-4 text-gold-500"></i>
-                                <span>3. Weight Packages & Pricing (Retail & 1kg Wholesale)</span>
+                                <span>3. Weight Packages & Pricing</span>
                             </h3>
                             <p class="text-[11px] text-stone-500 mt-0.5">Tag prices for each weight (e.g. 30g, 100g, 1kg) and toggle Sold Out status.</p>
                         </div>
@@ -148,11 +148,11 @@
                             </div>
                         </div>
 
-                        <!-- Variant 2 (1kg Wholesale) -->
+                        <!-- Variant 2 (1kg) -->
                         <div class="variant-row p-4 rounded-xl border border-stone-200 bg-stone-50/50 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
                             <div class="sm:col-span-3">
                                 <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Weight / Variant</label>
-                                <input type="text" name="variants[1][weight]" value="1kg (Wholesale)" required placeholder="e.g. 1kg (Wholesale)" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-semibold">
+                                <input type="text" name="variants[1][weight]" value="1kg Bag" required placeholder="e.g. 1kg Bag" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-semibold">
                             </div>
                             <div class="sm:col-span-3">
                                 <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Price (₱) *</label>
@@ -172,6 +172,50 @@
                                     <span>Sold Out</span>
                                 </label>
                                 <button type="button" onclick="this.closest('.variant-row').remove()" class="text-stone-400 hover:text-rose-600 p-1">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Bulk / Volume Tier Discounts (Automated Tiered Savings) -->
+                <div class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-stone-100">
+                        <div>
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-matcha-950 flex items-center gap-2">
+                                <i data-lucide="percent" class="w-4 h-4 text-gold-500"></i>
+                                <span>4. Bulk / Volume Tier Discounts (Manual Input)</span>
+                            </h3>
+                            <p class="text-[11px] text-stone-500 mt-0.5">Define volume discounts to encourage buyers to purchase in bulk (e.g. 10 units / 10kg get 10% OFF). Displayed directly in the product catalog.</p>
+                        </div>
+
+                        <button type="button" onclick="addBulkTierRow()" class="px-3 py-1.5 bg-gold-50 text-gold-800 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-gold-100 flex items-center gap-1 border border-gold-200">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>Add Discount Tier</span>
+                        </button>
+                    </div>
+
+                    <div id="bulk-tiers-container" class="space-y-3">
+                        <!-- Example Tier 1 -->
+                        <div class="bulk-tier-row p-4 rounded-xl border border-stone-200 bg-amber-50/20 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                            <div class="sm:col-span-3">
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Min Quantity / Units *</label>
+                                <input type="number" min="1" name="bulk_discounts[0][min_qty]" value="10" placeholder="e.g. 10" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-semibold">
+                            </div>
+                            <div class="sm:col-span-3">
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Discount % *</label>
+                                <div class="relative">
+                                    <input type="number" step="0.5" min="0" max="100" name="bulk_discounts[0][discount_percent]" value="10" placeholder="10" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-bold text-matcha-950 pr-7">
+                                    <span class="absolute right-2.5 top-2 text-xs font-bold text-stone-400">%</span>
+                                </div>
+                            </div>
+                            <div class="sm:col-span-5">
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Callout Label / Note (Optional)</label>
+                                <input type="text" name="bulk_discounts[0][label]" value="10+ items get 10% OFF" placeholder="e.g. 10+ items get 10% OFF" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300">
+                            </div>
+                            <div class="sm:col-span-1 flex items-center justify-end pt-4 sm:pt-4">
+                                <button type="button" onclick="this.closest('.bulk-tier-row').remove()" class="text-stone-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors">
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </div>
@@ -241,6 +285,7 @@
 @section('scripts')
 <script>
     let variantIndex = 2;
+    let bulkTierIndex = 1;
 
     function addVariantRow() {
         const container = document.getElementById('variants-container');
@@ -276,6 +321,37 @@
         container.appendChild(row);
         lucide.createIcons();
         variantIndex++;
+    }
+
+    function addBulkTierRow() {
+        const container = document.getElementById('bulk-tiers-container');
+        const row = document.createElement('div');
+        row.className = 'bulk-tier-row p-4 rounded-xl border border-stone-200 bg-amber-50/20 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center';
+        row.innerHTML = `
+            <div class="sm:col-span-3">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Min Quantity / Units *</label>
+                <input type="number" min="1" name="bulk_discounts[${bulkTierIndex}][min_qty]" required placeholder="e.g. 20" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-semibold">
+            </div>
+            <div class="sm:col-span-3">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Discount % *</label>
+                <div class="relative">
+                    <input type="number" step="0.5" min="0" max="100" name="bulk_discounts[${bulkTierIndex}][discount_percent]" required placeholder="15" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-bold text-matcha-950 pr-7">
+                    <span class="absolute right-2.5 top-2 text-xs font-bold text-stone-400">%</span>
+                </div>
+            </div>
+            <div class="sm:col-span-5">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Callout Label / Note (Optional)</label>
+                <input type="text" name="bulk_discounts[${bulkTierIndex}][label]" placeholder="e.g. 20+ items get 15% OFF" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300">
+            </div>
+            <div class="sm:col-span-1 flex items-center justify-end pt-4 sm:pt-4">
+                <button type="button" onclick="this.closest('.bulk-tier-row').remove()" class="text-stone-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+        lucide.createIcons();
+        bulkTierIndex++;
     }
 </script>
 @endsection

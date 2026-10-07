@@ -110,7 +110,7 @@
                         <div>
                             <h3 class="text-sm font-bold uppercase tracking-wider text-matcha-950 flex items-center gap-2">
                                 <i data-lucide="scale" class="w-4 h-4 text-gold-500"></i>
-                                <span>3. Weight Packages & Pricing (Retail & 1kg Wholesale)</span>
+                                <span>3. Weight Packages & Pricing</span>
                             </h3>
                             <p class="text-[11px] text-stone-500 mt-0.5">Modify prices for weights and toggle Sold Out tags.</p>
                         </div>
@@ -155,6 +155,59 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                </div>
+
+                <!-- 4. Bulk / Volume Tier Discounts (Manual Input) -->
+                <div class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-stone-100">
+                        <div>
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-matcha-950 flex items-center gap-2">
+                                <i data-lucide="percent" class="w-4 h-4 text-gold-500"></i>
+                                <span>4. Bulk / Volume Tier Discounts (Manual Input)</span>
+                            </h3>
+                            <p class="text-[11px] text-stone-500 mt-0.5">Configure volume discount tiers (e.g. 10 units / 10kg get 10% OFF). Displayed directly in the product catalog.</p>
+                        </div>
+
+                        <button type="button" onclick="addBulkTierRow()" class="px-3 py-1.5 bg-gold-50 text-gold-800 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-gold-100 flex items-center gap-1 border border-gold-200">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>Add Discount Tier</span>
+                        </button>
+                    </div>
+
+                    <div id="bulk-tiers-container" class="space-y-3">
+                        @php
+                            $bulkDiscounts = $product->bulk_discounts ?? [];
+                        @endphp
+
+                        @forelse($bulkDiscounts as $bIndex => $tier)
+                            <div class="bulk-tier-row p-4 rounded-xl border border-stone-200 bg-amber-50/20 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                                <div class="sm:col-span-3">
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Min Quantity / Units *</label>
+                                    <input type="number" min="1" name="bulk_discounts[{{ $bIndex }}][min_qty]" value="{{ $tier['min_qty'] ?? '' }}" required placeholder="e.g. 10" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-semibold">
+                                </div>
+                                <div class="sm:col-span-3">
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Discount % *</label>
+                                    <div class="relative">
+                                        <input type="number" step="0.5" min="0" max="100" name="bulk_discounts[{{ $bIndex }}][discount_percent]" value="{{ $tier['discount_percent'] ?? '' }}" required placeholder="10" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-bold text-matcha-950 pr-7">
+                                        <span class="absolute right-2.5 top-2 text-xs font-bold text-stone-400">%</span>
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-5">
+                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Callout Label / Note (Optional)</label>
+                                    <input type="text" name="bulk_discounts[{{ $bIndex }}][label]" value="{{ $tier['label'] ?? '' }}" placeholder="e.g. 10+ items get 10% OFF" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300">
+                                </div>
+                                <div class="sm:col-span-1 flex items-center justify-end pt-4 sm:pt-4">
+                                    <button type="button" onclick="this.closest('.bulk-tier-row').remove()" class="text-stone-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        @empty
+                            <div id="no-bulk-tiers-msg" class="p-4 rounded-xl border border-dashed border-stone-200 text-center text-xs text-stone-400">
+                                No bulk discount tiers configured for this product yet. Click "+ Add Discount Tier" above to add one.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
 
@@ -223,6 +276,7 @@
 @section('scripts')
 <script>
     let variantIndex = {{ count($product->variants) }};
+    let bulkTierIndex = {{ is_array($product->bulk_discounts) ? count($product->bulk_discounts) : 0 }};
 
     function addVariantRow() {
         const container = document.getElementById('variants-container');
@@ -258,6 +312,40 @@
         container.appendChild(row);
         lucide.createIcons();
         variantIndex++;
+    }
+
+    function addBulkTierRow() {
+        const noMsg = document.getElementById('no-bulk-tiers-msg');
+        if (noMsg) noMsg.remove();
+
+        const container = document.getElementById('bulk-tiers-container');
+        const row = document.createElement('div');
+        row.className = 'bulk-tier-row p-4 rounded-xl border border-stone-200 bg-amber-50/20 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center';
+        row.innerHTML = `
+            <div class="sm:col-span-3">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Min Quantity / Units *</label>
+                <input type="number" min="1" name="bulk_discounts[${bulkTierIndex}][min_qty]" required placeholder="e.g. 10" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-semibold">
+            </div>
+            <div class="sm:col-span-3">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Discount % *</label>
+                <div class="relative">
+                    <input type="number" step="0.5" min="0" max="100" name="bulk_discounts[${bulkTierIndex}][discount_percent]" required placeholder="10" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 font-bold text-matcha-950 pr-7">
+                    <span class="absolute right-2.5 top-2 text-xs font-bold text-stone-400">%</span>
+                </div>
+            </div>
+            <div class="sm:col-span-5">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Callout Label / Note (Optional)</label>
+                <input type="text" name="bulk_discounts[${bulkTierIndex}][label]" placeholder="e.g. 10+ items get 10% OFF" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300">
+            </div>
+            <div class="sm:col-span-1 flex items-center justify-end pt-4 sm:pt-4">
+                <button type="button" onclick="this.closest('.bulk-tier-row').remove()" class="text-stone-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+        lucide.createIcons();
+        bulkTierIndex++;
     }
 </script>
 @endsection

@@ -11,34 +11,107 @@ use App\Models\ProductVariant;
 
 class CheckoutController extends Controller
 {
+    private function processCart($cart)
+    {
+        $processed = [];
+        $subtotal = 0;
+        $totalSavings = 0;
+        $originalSubtotal = 0;
+
+        if (empty($cart)) {
+            return [
+                'items' => [],
+                'subtotal' => 0,
+                'total_savings' => 0,
+                'original_subtotal' => 0,
+            ];
+        }
+
+        $variantIds = array_keys($cart);
+        $variants = ProductVariant::with('product')->whereIn('id', $variantIds)->get()->keyBy('id');
+
+        foreach ($cart as $key => $item) {
+            $variant = $variants->get($key);
+            $qty = (int)($item['quantity'] ?? 1);
+            $origPrice = (float)($variant ? $variant->price : ($item['original_price'] ?? $item['price']));
+
+            $discountPercent = 0;
+            $discountLabel = null;
+
+            if ($variant && $variant->product) {
+                $tier = $variant->product->getBulkDiscountForQty($qty);
+                if ($tier) {
+                    $discountPercent = (float)$tier['discount_percent'];
+                    $discountLabel = !empty($tier['label']) ? $tier['label'] : "{$discountPercent}% Bulk Tier ({$tier['min_qty']}+ units)";
+                }
+            }
+
+            $discountedPrice = $discountPercent > 0 ? round($origPrice * (1 - ($discountPercent / 100)), 2) : $origPrice;
+            $lineTotal = $discountedPrice * $qty;
+            $origLineTotal = $origPrice * $qty;
+            $lineSavings = $origLineTotal - $lineTotal;
+
+            $processed[$key] = [
+                'variant_id' => $item['variant_id'] ?? $key,
+                'product_id' => $variant ? $variant->product_id : ($item['product_id'] ?? null),
+                'name' => $variant && $variant->product ? $variant->product->name : ($item['name'] ?? ''),
+                'slug' => $variant && $variant->product ? $variant->product->slug : ($item['slug'] ?? ''),
+                'weight' => $variant ? $variant->weight : ($item['weight'] ?? ''),
+                'original_price' => $origPrice,
+                'price' => $discountedPrice,
+                'discount_percent' => $discountPercent,
+                'discount_label' => $discountLabel,
+                'quantity' => $qty,
+                'line_total' => $lineTotal,
+                'line_savings' => $lineSavings,
+                'image' => $variant && $variant->product && $variant->product->primary_image ? $variant->product->primary_image : ($item['image'] ?? '/uploads/products/samidori.jpg'),
+            ];
+
+            $subtotal += $lineTotal;
+            $originalSubtotal += $origLineTotal;
+            $totalSavings += $lineSavings;
+        }
+
+        return [
+            'items' => $processed,
+            'subtotal' => $subtotal,
+            'total_savings' => $totalSavings,
+            'original_subtotal' => $originalSubtotal,
+        ];
+    }
+
     public function index()
     {
-        $cart = session()->get('cart', []);
+        $rawCart = session()->get('cart', []);
         
-        if (empty($cart)) {
+        if (empty($rawCart)) {
             return redirect()->route('shop.index')->with('error', 'Your cart is empty. Please select matcha items to proceed to checkout.');
         }
 
-        $subtotal = 0;
-        foreach ($cart as $item) {
-            $subtotal += $item['price'] * $item['quantity'];
-        }
+        $cartData = $this->processCart($rawCart);
+        $cart = $cartData['items'];
+        $subtotal = $cartData['subtotal'];
+        $totalSavings = $cartData['total_savings'];
+        $originalSubtotal = $cartData['original_subtotal'];
 
         $shippingFee = 0.00;
         $total = $subtotal;
 
         $user = auth()->user();
 
-        return view('frontend.checkout.index', compact('cart', 'subtotal', 'shippingFee', 'total', 'user'));
+        return view('frontend.checkout.index', compact('cart', 'subtotal', 'shippingFee', 'total', 'totalSavings', 'originalSubtotal', 'user'));
     }
 
     public function process(Request $request)
     {
-        $cart = session()->get('cart', []);
+        $rawCart = session()->get('cart', []);
         
-        if (empty($cart)) {
+        if (empty($rawCart)) {
             return redirect()->route('shop.index')->with('error', 'Your cart is empty.');
         }
+
+        $cartData = $this->processCart($rawCart);
+        $cart = $cartData['items'];
 
         $validated = $request->validate([
             'first_name' => 'required|string|max:100',
@@ -60,11 +133,7 @@ class CheckoutController extends Controller
             'payment_reference.required_if' => 'Please enter the transaction reference number from your payment receipt.',
         ]);
 
-        $subtotal = 0;
-        foreach ($cart as $item) {
-            $subtotal += $item['price'] * $item['quantity'];
-        }
-
+        $subtotal = $cartData['subtotal'];
         $shippingFee = 0.00;
         $totalAmount = $subtotal;
 
@@ -103,11 +172,11 @@ class CheckoutController extends Controller
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'] ?? null,
                     'product_variant_id' => $item['variant_id'] ?? null,
-                    'product_name' => $item['name'],
+                    'product_name' => $item['name'] . ($item['discount_percent'] > 0 ? " ({$item['discount_percent']}% Bulk Discount)" : ''),
                     'variant_weight' => $item['weight'] ?? null,
                     'unit_price' => $item['price'],
                     'quantity' => $item['quantity'],
-                    'subtotal' => $item['price'] * $item['quantity'],
+                    'subtotal' => $item['line_total'],
                 ]);
             }
 
@@ -125,3 +194,4 @@ class CheckoutController extends Controller
         }
     }
 }
+

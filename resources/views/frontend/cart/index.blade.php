@@ -38,6 +38,9 @@
 
                     <div class="divide-y divide-stone-100">
                         @foreach($cart as $key => $item)
+                            @php
+                                $hasDiscount = !empty($item['discount_percent']) && $item['discount_percent'] > 0;
+                            @endphp
                             <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                                 <div class="flex items-center space-x-4">
                                     <div class="w-20 h-20 rounded-xl overflow-hidden bg-cream-100 flex-shrink-0 border border-stone-200">
@@ -50,9 +53,22 @@
                                         <p class="text-xs font-mono text-matcha-800 font-semibold mt-0.5">
                                             Weight: {{ $item['weight'] }}
                                         </p>
-                                        <p class="text-xs text-stone-500 mt-1">
-                                            ₱{{ number_format($item['price'], 2) }} each
-                                        </p>
+                                        <div class="text-xs text-stone-500 mt-1 flex flex-wrap items-center gap-1.5">
+                                            @if($hasDiscount)
+                                                <span class="line-through text-stone-400 font-mono">₱{{ number_format($item['original_price'], 2) }}</span>
+                                                <span class="font-bold text-matcha-950 font-mono">₱{{ number_format($item['price'], 2) }} each</span>
+                                            @else
+                                                <span class="font-mono">₱{{ number_format($item['price'], 2) }} each</span>
+                                            @endif
+                                        </div>
+                                        @if($hasDiscount)
+                                            <div class="mt-1.5">
+                                                <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border border-emerald-200">
+                                                    <i data-lucide="percent" class="w-3 h-3 text-emerald-600"></i>
+                                                    <span>{{ $item['discount_label'] ?? $item['discount_percent'] . '% Bulk Tier Applied' }}</span>
+                                                </span>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -61,17 +77,22 @@
                                     <form action="{{ route('cart.update') }}" method="POST" class="flex items-center border border-stone-300 rounded-lg overflow-hidden bg-stone-50">
                                         @csrf
                                         <input type="hidden" name="variant_id" value="{{ $item['variant_id'] }}">
-                                        <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" max="99" class="w-14 text-center text-xs font-semibold py-1.5 focus:outline-none bg-white">
+                                        <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" max="999" class="w-16 text-center text-xs font-semibold py-1.5 focus:outline-none bg-white font-mono">
                                         <button type="submit" class="px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold uppercase tracking-wider border-l border-stone-300" title="Update Quantity">
                                             Save
                                         </button>
                                     </form>
 
                                     <!-- Subtotal -->
-                                    <div class="text-right min-w-[90px]">
-                                        <span class="text-sm font-sans font-bold text-matcha-950">
-                                            ₱{{ number_format($item['price'] * $item['quantity'], 2) }}
+                                    <div class="text-right min-w-[100px]">
+                                        <span class="text-sm font-sans font-bold text-matcha-950 block">
+                                            ₱{{ number_format($item['line_total'], 2) }}
                                         </span>
+                                        @if($hasDiscount && $item['line_savings'] > 0)
+                                            <span class="text-[10px] text-emerald-700 font-mono block">
+                                                Saved ₱{{ number_format($item['line_savings'], 2) }}
+                                            </span>
+                                        @endif
                                     </div>
 
                                     <!-- Remove Button -->
@@ -95,9 +116,23 @@
                     </h3>
 
                     <div class="space-y-3 text-xs">
-                        <div class="flex justify-between text-base font-sans font-bold text-matcha-950">
+                        @if(isset($totalSavings) && $totalSavings > 0)
+                            <div class="flex justify-between text-stone-600">
+                                <span>Original Price</span>
+                                <span class="font-mono">₱{{ number_format($originalSubtotal, 2) }}</span>
+                            </div>
+                            <div class="flex justify-between text-emerald-700 font-bold bg-emerald-50 p-2 rounded-lg border border-emerald-200">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                    <span>Bulk Tier Discount</span>
+                                </span>
+                                <span class="font-mono">-₱{{ number_format($totalSavings, 2) }}</span>
+                            </div>
+                        @endif
+
+                        <div class="flex justify-between text-base font-sans font-bold text-matcha-950 pt-2 border-t border-stone-100">
                             <span>Total Amount</span>
-                            <span>₱{{ number_format($subtotal, 2) }}</span>
+                            <span class="font-mono">₱{{ number_format($subtotal, 2) }}</span>
                         </div>
                     </div>
 

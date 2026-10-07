@@ -27,12 +27,14 @@ class Product extends Model
         'primary_image',
         'gallery_images',
         'badge',
+        'bulk_discounts',
         'is_featured',
         'is_active',
     ];
 
     protected $casts = [
         'gallery_images' => 'array',
+        'bulk_discounts' => 'array',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
@@ -68,6 +70,54 @@ class Product extends Model
     public function getDefaultVariantAttribute()
     {
         return $this->variants->where('is_sold_out', false)->first() ?? $this->variants->first();
+    }
+
+    public function getSortedBulkDiscountsAttribute()
+    {
+        if (empty($this->bulk_discounts) || !is_array($this->bulk_discounts)) {
+            return [];
+        }
+
+        $tiers = array_filter($this->bulk_discounts, function ($tier) {
+            return !empty($tier['min_qty']) && !empty($tier['discount_percent']) && (float)$tier['discount_percent'] > 0;
+        });
+
+        usort($tiers, function ($a, $b) {
+            return ((int)$a['min_qty']) <=> ((int)$b['min_qty']);
+        });
+
+        return array_values($tiers);
+    }
+
+    public function getHasBulkDiscountAttribute()
+    {
+        return count($this->sorted_bulk_discounts) > 0;
+    }
+
+    public function getMaxBulkDiscountPercentAttribute()
+    {
+        $tiers = $this->sorted_bulk_discounts;
+        if (empty($tiers)) {
+            return 0;
+        }
+        return max(array_map(fn($t) => (float)$t['discount_percent'], $tiers));
+    }
+
+    public function getBulkDiscountForQty($qty)
+    {
+        $tiers = $this->sorted_bulk_discounts;
+        if (empty($tiers)) {
+            return null;
+        }
+
+        $matched = null;
+        foreach ($tiers as $tier) {
+            if ($qty >= (int)$tier['min_qty']) {
+                $matched = $tier;
+            }
+        }
+
+        return $matched;
     }
 
     public static function boot()

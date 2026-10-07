@@ -91,42 +91,53 @@
 
         /* Matcha Theme SweetAlert2 Toast */
         .coffeebase-toast-popup {
-            background: #1b2c21 !important; /* matcha-900 */
-            color: #fbfaf2 !important; /* cream-100 */
+            background: #1b2c21 !important;
+            /* matcha-900 */
+            color: #fbfaf2 !important;
+            /* cream-100 */
             border: 1px solid rgba(212, 195, 141, 0.35) !important;
             border-radius: 1rem !important;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3) !important;
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
             padding: 0.85rem 1.25rem !important;
         }
+
         .coffeebase-toast-popup .swal2-title {
             color: #fbfaf2 !important;
             font-size: 0.85rem !important;
             font-weight: 600 !important;
             line-height: 1.35 !important;
         }
+
         .coffeebase-toast-popup .swal2-html-container {
             color: #cad9cb !important;
             font-size: 0.75rem !important;
         }
+
         .coffeebase-toast-popup .swal2-timer-progress-bar {
-            background: #dcb35c !important; /* gold-400 */
+            background: #dcb35c !important;
+            /* gold-400 */
             height: 3px !important;
         }
+
         .coffeebase-toast-popup .swal2-icon.swal2-success {
             border-color: #52805f !important;
             color: #759d80 !important;
         }
+
         .coffeebase-toast-popup .swal2-icon.swal2-success [class^='swal2-success-line'] {
             background-color: #759d80 !important;
         }
+
         .coffeebase-toast-popup .swal2-icon.swal2-success .swal2-success-ring {
             border: .25em solid rgba(117, 157, 128, 0.4) !important;
         }
+
         .coffeebase-toast-popup .swal2-icon.swal2-error {
             border-color: #f43f5e !important;
             color: #f43f5e !important;
         }
+
         .coffeebase-toast-popup .swal2-icon.swal2-info {
             border-color: #dcb35c !important;
             color: #dcb35c !important;
@@ -136,31 +147,25 @@
 
 <body class="min-h-screen flex flex-col antialiased selection:bg-matcha-600 selection:text-white">
 
-    <!-- Top Announcement Bar -->
-    <div
-        class="bg-matcha-950 text-cream-100 text-xs sm:text-sm py-2.5 px-4 text-center font-sans font-medium tracking-normal flex justify-center items-center gap-1">
-        <span>Japanese</span>
-        <span class="text-[10px] font-bold tracking-tight uppercase opacity-90">JP</span>
-        <span>Matcha 🍵, Now Available in the Philippines</span>
-        <span class="text-[10px] font-bold tracking-tight uppercase opacity-90">PH</span>.
-    </div>
-
     <!-- Navigation Header -->
     <header class="glass-header sticky top-0 z-40 border-b border-cream-300/60 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
+
             <!-- Desktop & Mobile Header Layout -->
             <div class="flex items-center justify-between h-20 sm:h-24">
 
                 <!-- Left: Navigation (Desktop) / Menu Button (Mobile) -->
                 <div class="flex items-center">
                     <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-btn" class="lg:hidden text-stone-900 p-2 hover:text-matcha-700 transition-colors" aria-label="Open Menu">
+                    <button id="mobile-menu-btn"
+                        class="lg:hidden text-stone-900 p-2 hover:text-matcha-700 transition-colors"
+                        aria-label="Open Menu">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
 
                     <!-- Desktop Navigation Links (Left side or Full) -->
-                    <nav class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-mono uppercase tracking-[0.18em]">
+                    <nav
+                        class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-mono uppercase tracking-[0.18em]">
                         <a href="{{ route('home') }}"
                             class="transition-colors pb-0.5 {{ request()->routeIs('home') && !request()->has('category') ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
                             Home
@@ -178,21 +183,28 @@
 
                 <!-- Center: Brand Logo (Centered like Sabo Matcha) -->
                 <div class="absolute left-1/2 -translate-x-1/2 text-center pointer-events-auto">
-                    <a href="{{ route('home') }}" class="inline-flex flex-col items-center group">
-                        <span class="text-lg sm:text-2xl font-serif font-bold tracking-[-0.03em] text-stone-950 uppercase group-hover:text-matcha-800 transition-colors">
-                            COFFEE BASE
-                        </span>
-                        <span class="text-[9px] sm:text-[10px] font-mono tracking-[0.35em] text-stone-500 uppercase -mt-0.5 group-hover:text-stone-800 transition-colors">
-                            Philippines
-                        </span>
+                    <a href="{{ route('home') }}" class="inline-flex items-center gap-2.5 sm:gap-3 group">
+                        <img src="{{ asset('uploads/coffee-logo.png') }}" alt="Coffee Base Philippines Logo"
+                            class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 object-contain group-hover:scale-105 transition-transform duration-300">
+                        <div class="flex flex-col items-start text-left">
+                            <span
+                                class="text-base sm:text-xl md:text-2xl font-serif font-bold tracking-[-0.03em] text-stone-950 uppercase group-hover:text-matcha-800 transition-colors leading-none">
+                                COFFEE BASE
+                            </span>
+                            <span
+                                class="text-[8px] sm:text-[9px] md:text-[10px] font-mono tracking-[0.35em] text-stone-500 uppercase mt-0.5 group-hover:text-stone-800 transition-colors leading-none">
+                                Philippines
+                            </span>
+                        </div>
                     </a>
                 </div>
 
                 <!-- Right: Navigation Links (About & Contact) + Utilities (Account, Cart) -->
                 <div class="flex items-center space-x-4 sm:space-x-6">
-                    
+
                     <!-- Desktop Right Nav Links -->
-                    <nav class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-mono uppercase tracking-[0.18em]">
+                    <nav
+                        class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-mono uppercase tracking-[0.18em]">
                         <a href="{{ route('about') }}"
                             class="transition-colors pb-0.5 {{ request()->routeIs('about') ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
                             About Us
@@ -208,11 +220,13 @@
                     <!-- Account / Auth -->
                     @auth
                         <div class="relative" id="user-dropdown-wrapper">
-                            <button id="user-dropdown-btn" type="button" class="flex items-center space-x-1.5 text-stone-900 hover:text-matcha-700 py-2 focus:outline-none transition-colors">
+                            <button id="user-dropdown-btn" type="button"
+                                class="flex items-center space-x-1.5 text-stone-900 hover:text-matcha-700 py-2 focus:outline-none transition-colors">
                                 <i data-lucide="user-check" class="w-5 h-5"></i>
                                 <span
                                     class="text-[11px] font-mono uppercase tracking-wider hidden xl:inline">{{ auth()->user()->first_name ?? 'Account' }}</span>
-                                <i data-lucide="chevron-down" id="user-dropdown-chevron" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+                                <i data-lucide="chevron-down" id="user-dropdown-chevron"
+                                    class="w-3.5 h-3.5 transition-transform duration-200"></i>
                             </button>
                             <div id="user-dropdown-menu"
                                 class="absolute right-0 w-52 mt-2 py-2 bg-white rounded-xl shadow-xl border border-stone-200 hidden transition-all z-50">
@@ -305,8 +319,8 @@
                         <i data-lucide="package" class="w-4 h-4 mr-2 text-stone-500"></i> My Orders
                     </a>
                     @if (auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="block py-2 font-bold text-amber-800">Admin Dashboard</a>
+                        <a href="{{ route('admin.dashboard') }}" class="block py-2 font-bold text-amber-800">Admin
+                            Dashboard</a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="pt-2">
                         @csrf
@@ -368,10 +382,13 @@
 
                 <!-- Email Subscribe Input Pill -->
                 <div class="w-full md:w-auto md:min-w-[420px]">
-                    <form action="#" method="POST" onsubmit="event.preventDefault(); showToast('success', 'Thank you for subscribing to COFFEE BASE Philippines!'); this.reset();" class="relative flex items-center">
-                        <input type="email" required placeholder="Email address" 
+                    <form action="#" method="POST"
+                        onsubmit="event.preventDefault(); showToast('success', 'Thank you for subscribing to COFFEE BASE Philippines!'); this.reset();"
+                        class="relative flex items-center">
+                        <input type="email" required placeholder="Email address"
                             class="w-full pl-6 pr-14 py-3.5 text-xs rounded-full border border-stone-300 focus:border-stone-900 focus:ring-1 focus:ring-stone-900 outline-none transition-all placeholder:text-stone-400 bg-white">
-                        <button type="submit" aria-label="Subscribe" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors">
+                        <button type="submit" aria-label="Subscribe"
+                            class="absolute right-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors">
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </form>
@@ -379,33 +396,43 @@
             </div>
 
             <!-- Bottom Copyright & Policy Links -->
-            <div class="mt-16 pt-8 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-500 gap-4">
+            <div
+                class="mt-16 pt-8 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-500 gap-4">
                 <p>© {{ date('Y') }} COFFEE BASE Philippines</p>
                 <div>
-                    <a href="{{ route('shop.index') }}" class="hover:text-stone-900 transition-colors">Terms and Policies</a>
+                    <a href="{{ route('shop.index') }}" class="hover:text-stone-900 transition-colors">Terms and
+                        Policies</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Slide-Out Cart Drawer -->
-    <div id="cart-drawer-container" class="relative z-50 pointer-events-none transition-opacity duration-300 opacity-0" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+    <div id="cart-drawer-container"
+        class="relative z-50 pointer-events-none transition-opacity duration-300 opacity-0"
+        aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
         <!-- Backdrop Overlay -->
-        <div id="cart-drawer-backdrop" onclick="closeCartDrawer()" class="fixed inset-0 bg-stone-950/40 backdrop-blur-xs transition-opacity opacity-0 cursor-pointer"></div>
+        <div id="cart-drawer-backdrop" onclick="closeCartDrawer()"
+            class="fixed inset-0 bg-stone-950/40 backdrop-blur-xs transition-opacity opacity-0 cursor-pointer"></div>
 
         <div class="fixed inset-0 overflow-hidden pointer-events-none">
             <div class="absolute inset-0 overflow-hidden">
                 <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-6 sm:pl-10">
                     <!-- Drawer Slide-in Panel -->
-                    <div id="cart-drawer-panel" class="pointer-events-auto w-screen max-w-md transform transition ease-in-out duration-300 translate-x-full bg-white shadow-2xl flex flex-col">
-                        
+                    <div id="cart-drawer-panel"
+                        class="pointer-events-auto w-screen max-w-md transform transition ease-in-out duration-300 translate-x-full bg-white shadow-2xl flex flex-col">
+
                         <!-- Header -->
                         <div class="px-6 py-5 border-b border-stone-100 flex items-center justify-between">
                             <div class="flex items-center gap-2.5">
-                                <h2 class="text-base font-sans font-bold text-stone-950 tracking-tight" id="slide-over-title">Shopping Cart</h2>
-                                <span id="cart-drawer-count-badge" class="px-2 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700">0 items</span>
+                                <h2 class="text-base font-sans font-bold text-stone-950 tracking-tight"
+                                    id="slide-over-title">Shopping Cart</h2>
+                                <span id="cart-drawer-count-badge"
+                                    class="px-2 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700">0
+                                    items</span>
                             </div>
-                            <button type="button" onclick="closeCartDrawer()" class="p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-50 rounded-full transition-colors">
+                            <button type="button" onclick="closeCartDrawer()"
+                                class="p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-50 rounded-full transition-colors">
                                 <span class="sr-only">Close panel</span>
                                 <i data-lucide="x" class="w-5 h-5"></i>
                             </button>
@@ -417,38 +444,59 @@
                         </div>
 
                         <!-- Empty State Notice (hidden by default) -->
-                        <div id="cart-drawer-empty" class="hidden flex-1 flex-col items-center justify-center p-8 text-center space-y-4">
-                            <div class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center text-stone-400">
+                        <div id="cart-drawer-empty"
+                            class="hidden flex-1 flex-col items-center justify-center p-8 text-center space-y-4">
+                            <div
+                                class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center text-stone-400">
                                 <i data-lucide="shopping-bag" class="w-8 h-8"></i>
                             </div>
                             <div>
                                 <h3 class="text-base font-semibold text-stone-900 font-sans">Your cart is empty</h3>
-                                <p class="text-xs text-stone-500 mt-1 max-w-xs font-light">Explore our authentic single origin Kyoto matcha and specialty blends.</p>
+                                <p class="text-xs text-stone-500 mt-1 max-w-xs font-light">Explore our authentic single
+                                    origin Kyoto matcha and specialty blends.</p>
                             </div>
-                            <a href="{{ route('shop.index') }}" onclick="closeCartDrawer()" class="inline-block px-6 py-2.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors">
+                            <a href="{{ route('shop.index') }}" onclick="closeCartDrawer()"
+                                class="inline-block px-6 py-2.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors">
                                 Explore Matcha
                             </a>
                         </div>
 
                         <!-- Footer / Checkout Area -->
-                        <div id="cart-drawer-footer" class="border-t border-stone-200 bg-stone-50/70 px-6 py-5 space-y-4">
+                        <div id="cart-drawer-footer"
+                            class="border-t border-stone-200 bg-stone-50/70 px-6 py-5 space-y-4">
+                            <!-- Savings Row (for bulk volume discounts) -->
+                            <div id="cart-drawer-savings-row"
+                                class="hidden items-center justify-between text-xs text-emerald-900 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200">
+                                <span class="font-semibold flex items-center gap-1.5">
+                                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i>
+                                    <span>Bulk Tier Savings</span>
+                                </span>
+                                <span id="cart-drawer-savings" class="font-bold font-mono">-₱0.00</span>
+                            </div>
+
                             <!-- Subtotal -->
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Estimated Total</span>
-                                <span id="cart-drawer-subtotal" class="text-lg font-sans font-bold text-stone-950">₱0.00</span>
+                                <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Estimated
+                                    Total</span>
+                                <span id="cart-drawer-subtotal"
+                                    class="text-lg font-sans font-bold text-stone-950">₱0.00</span>
                             </div>
 
                             <p class="text-[11px] text-stone-500 leading-tight">
-                                Taxes and shipping calculated at checkout. Delivery arrangement via Grab / Lalamove / LBC.
+                                Taxes and shipping calculated at checkout. Delivery arrangement via Grab / Lalamove /
+                                LBC.
                             </p>
 
                             <!-- Actions -->
                             <div class="space-y-2 pt-1">
-                                <a href="{{ route('checkout.index') }}" class="w-full py-3.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-[0.2em] rounded-lg shadow transition-all flex items-center justify-center gap-2 group">
+                                <a href="{{ route('checkout.index') }}"
+                                    class="w-full py-3.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-[0.2em] rounded-lg shadow transition-all flex items-center justify-center gap-2 group">
                                     <span>Proceed to Checkout</span>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"></i>
+                                    <i data-lucide="arrow-right"
+                                        class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"></i>
                                 </a>
-                                <a href="{{ route('cart.index') }}" class="block text-center py-2 text-xs font-semibold text-stone-600 hover:text-stone-950 transition-colors">
+                                <a href="{{ route('cart.index') }}"
+                                    class="block text-center py-2 text-xs font-semibold text-stone-600 hover:text-stone-950 transition-colors">
                                     View Full Cart
                                 </a>
                             </div>
@@ -461,28 +509,37 @@
     </div>
 
     <!-- Quick Add / Quick View Modal -->
-    <div id="quick-add-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-300" aria-modal="true" role="dialog">
+    <div id="quick-add-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-300"
+        aria-modal="true" role="dialog">
         <!-- Backdrop -->
-        <div id="quick-add-backdrop" onclick="closeQuickAddModal()" class="fixed inset-0 bg-stone-950/60 backdrop-blur-xs transition-opacity opacity-0 cursor-pointer"></div>
+        <div id="quick-add-backdrop" onclick="closeQuickAddModal()"
+            class="fixed inset-0 bg-stone-950/60 backdrop-blur-xs transition-opacity opacity-0 cursor-pointer"></div>
 
         <!-- Modal Box -->
-        <div id="quick-add-card" class="relative bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl z-10 transform scale-95 transition-transform duration-300 overflow-hidden">
+        <div id="quick-add-card"
+            class="relative bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl z-10 transform scale-95 transition-transform duration-300 overflow-hidden">
             <!-- Close Button -->
-            <button type="button" onclick="closeQuickAddModal()" class="absolute top-5 right-5 text-stone-400 hover:text-stone-800 p-1.5 rounded-full hover:bg-stone-100 transition-colors z-20">
+            <button type="button" onclick="closeQuickAddModal()"
+                class="absolute top-5 right-5 text-stone-400 hover:text-stone-800 p-1.5 rounded-full hover:bg-stone-100 transition-colors z-20">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
                 <!-- Left: Product Image -->
-                <div class="aspect-square bg-stone-50 rounded-2xl flex items-center justify-center p-4 overflow-hidden border border-stone-100">
+                <div
+                    class="aspect-square bg-stone-50 rounded-2xl flex items-center justify-center p-4 overflow-hidden border border-stone-100">
                     <img id="quick-modal-image" src="" alt="" class="w-full h-full object-contain">
                 </div>
 
                 <!-- Right: Product Details & Controls -->
                 <div class="flex flex-col justify-between space-y-5">
                     <div>
-                        <h3 id="quick-modal-title" class="text-xl sm:text-2xl font-sans font-bold text-stone-950 tracking-tight leading-snug"></h3>
-                        <p id="quick-modal-price" class="text-base sm:text-lg font-sans font-bold text-stone-900 mt-1.5"></p>
+                        <h3 id="quick-modal-title"
+                            class="text-xl sm:text-2xl font-sans font-bold text-stone-950 tracking-tight leading-snug">
+                        </h3>
+                        <p id="quick-modal-price"
+                            class="text-base sm:text-lg font-sans font-bold text-stone-900 mt-1.5"></p>
                     </div>
 
                     <!-- Weight / Variants -->
@@ -498,26 +555,38 @@
                         <div class="flex items-center gap-3">
                             <!-- Stepper -->
                             <div class="flex items-center border border-stone-300 rounded-xl bg-white overflow-hidden">
-                                <button type="button" onclick="changeQuickModalQty(-1)" class="px-3.5 py-3 text-stone-500 hover:bg-stone-100 transition-colors">
+                                <button type="button" onclick="changeQuickModalQty(-1)"
+                                    class="px-3.5 py-3 text-stone-500 hover:bg-stone-100 transition-colors">
                                     <i data-lucide="minus" class="w-4 h-4"></i>
                                 </button>
-                                <input type="number" id="quick-modal-qty" value="1" min="1" max="99" class="w-12 text-center text-sm font-semibold text-stone-900 focus:outline-none py-2.5">
-                                <button type="button" onclick="changeQuickModalQty(1)" class="px-3.5 py-3 text-stone-500 hover:bg-stone-100 transition-colors">
+                                <input type="number" id="quick-modal-qty" value="1" min="1"
+                                    max="99"
+                                    class="w-12 text-center text-sm font-semibold text-stone-900 focus:outline-none py-2.5">
+                                <button type="button" onclick="changeQuickModalQty(1)"
+                                    class="px-3.5 py-3 text-stone-500 hover:bg-stone-100 transition-colors">
                                     <i data-lucide="plus" class="w-4 h-4"></i>
                                 </button>
                             </div>
 
                             <!-- Add to cart button -->
-                            <button type="button" id="quick-modal-add-btn" onclick="submitQuickAddToCart(false)" class="flex-1 py-3 px-4 bg-black hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/>
+                            <button type="button" id="quick-modal-add-btn" onclick="submitQuickAddToCart(false)"
+                                class="flex-1 py-3 px-4 bg-black hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                                    <path d="M3 6h18" />
+                                    <path d="M16 10a4 4 0 0 1-8 0" />
+                                    <line x1="12" y1="13" x2="12" y2="19" />
+                                    <line x1="9" y1="16" x2="15" y2="16" />
                                 </svg>
                                 <span>Add to cart</span>
                             </button>
                         </div>
 
                         <!-- Buy it now button -->
-                        <button type="button" id="quick-modal-buy-btn" onclick="submitQuickAddToCart(true)" class="w-full py-3.5 bg-black hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors text-center shadow">
+                        <button type="button" id="quick-modal-buy-btn" onclick="submitQuickAddToCart(true)"
+                            class="w-full py-3.5 bg-black hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors text-center shadow">
                             Buy it now
                         </button>
                     </div>
@@ -528,144 +597,205 @@
     </div>
 
     @auth
-    <!-- CUSTOMER PROFILE & DETAILS MODAL -->
-    <div id="customer-profile-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-xs transition-opacity cursor-pointer" onclick="closeCustomerProfileModal()"></div>
-        <div class="relative bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl z-10 transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto" id="customer-profile-card">
-            
-            <div class="flex items-center justify-between pb-4 border-b border-stone-100">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-matcha-700 text-cream-50 flex items-center justify-center font-bold text-sm shadow-xs">
-                        {{ strtoupper(substr(auth()->user()->first_name ?: auth()->user()->name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name ?: (explode(' ', auth()->user()->name)[1] ?? ''), 0, 1)) ?: 'C' }}
-                    </div>
-                    <div>
-                        <h3 class="text-base font-sans font-bold text-stone-950">Account & Delivery Details</h3>
-                        <p class="text-xs text-stone-500">Update your customer profile and shipping address</p>
-                    </div>
-                </div>
-                <button type="button" onclick="closeCustomerProfileModal()" class="text-stone-400 hover:text-stone-700 p-1.5 rounded-full hover:bg-stone-100 transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
+        <!-- CUSTOMER PROFILE & DETAILS MODAL -->
+        <div id="customer-profile-modal"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300"
+            role="dialog" aria-modal="true">
+            <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-xs transition-opacity cursor-pointer"
+                onclick="closeCustomerProfileModal()"></div>
+            <div class="relative bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl z-10 transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto"
+                id="customer-profile-card">
 
-            <form action="{{ route('customer.profile.update') }}" method="POST" class="space-y-4 pt-4">
-                @csrf
-                @method('PUT')
-
-                <!-- Personal Info -->
-                <div class="space-y-3">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-matcha-900 flex items-center gap-1.5">
-                        <i data-lucide="user" class="w-3.5 h-3.5"></i>
-                        <span>Personal Information</span>
-                    </h4>
-                    
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">First Name *</label>
-                            <input type="text" name="first_name" value="{{ old('first_name', auth()->user()->first_name ?: explode(' ', auth()->user()->name)[0]) }}" required class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                <div class="flex items-center justify-between pb-4 border-b border-stone-100">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-matcha-700 text-cream-50 flex items-center justify-center font-bold text-sm shadow-xs">
+                            {{ strtoupper(substr(auth()->user()->first_name ?: auth()->user()->name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name ?: explode(' ', auth()->user()->name)[1] ?? '', 0, 1)) ?: 'C' }}
                         </div>
                         <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Last Name *</label>
-                            <input type="text" name="last_name" value="{{ old('last_name', auth()->user()->last_name ?: (explode(' ', auth()->user()->name)[1] ?? '')) }}" required class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <h3 class="text-base font-sans font-bold text-stone-950">Account & Delivery Details</h3>
+                            <p class="text-xs text-stone-500">Update your customer profile and shipping address</p>
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Email Address *</label>
-                            <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" required class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Mobile Phone Number</label>
-                            <input type="text" name="phone" value="{{ old('phone', auth()->user()->phone) }}" placeholder="0917 123 4567" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Company / Cafe Name (Optional)</label>
-                        <input type="text" name="company" value="{{ old('company', auth()->user()->company) }}" placeholder="e.g. Kyoto Cafe" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                    </div>
+                    <button type="button" onclick="closeCustomerProfileModal()"
+                        class="text-stone-400 hover:text-stone-700 p-1.5 rounded-full hover:bg-stone-100 transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
                 </div>
 
-                <!-- Shipping Address -->
-                <div class="pt-3 border-t border-stone-100 space-y-3">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-matcha-900 flex items-center gap-1.5">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
-                        <span>Default Shipping & Delivery Address</span>
-                    </h4>
+                <form action="{{ route('customer.profile.update') }}" method="POST" class="space-y-4 pt-4">
+                    @csrf
+                    @method('PUT')
 
-                    <div>
-                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Street Address / House No. / Building</label>
-                        <input type="text" name="address" value="{{ old('address', auth()->user()->address) }}" placeholder="123 Matcha Ave, Unit 4B" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                    </div>
+                    <!-- Personal Info -->
+                    <div class="space-y-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-matcha-900 flex items-center gap-1.5">
+                            <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                            <span>Personal Information</span>
+                        </h4>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Apartment / Suite / Unit</label>
-                            <input type="text" name="apartment" value="{{ old('apartment', auth()->user()->apartment) }}" placeholder="Tower 1, 12th Floor" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Barangay</label>
-                            <input type="text" name="barangay" value="{{ old('barangay', auth()->user()->barangay) }}" placeholder="Brgy. San Antonio" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">City / Municipality</label>
-                            <input type="text" name="city" value="{{ old('city', auth()->user()->city) }}" placeholder="Makati City" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Region / Province</label>
-                            <input type="text" name="region" value="{{ old('region', auth()->user()->region) }}" placeholder="Metro Manila" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Postal Code</label>
-                            <input type="text" name="postal_code" value="{{ old('postal_code', auth()->user()->postal_code) }}" placeholder="1203" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Password Change (Optional) -->
-                <div class="pt-3 border-t border-stone-100">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-stone-800 flex items-center gap-1.5">
-                            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                            <span>Security & Password</span>
-                        </span>
-                        <span class="text-[10px] text-stone-400">Leave blank if no changes</span>
-                    </div>
-
-                    <div class="space-y-2.5">
-                        <div>
-                            <label class="block text-[11px] font-semibold text-stone-600 mb-1">Current Password (Required only to change password)</label>
-                            <input type="password" name="current_password" placeholder="••••••••" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-[11px] font-semibold text-stone-600 mb-1">New Password</label>
-                                <input type="password" name="password" placeholder="Min 6 characters" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">First
+                                    Name *</label>
+                                <input type="text" name="first_name"
+                                    value="{{ old('first_name', auth()->user()->first_name ?: explode(' ', auth()->user()->name)[0]) }}"
+                                    required
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-semibold text-stone-600 mb-1">Confirm New Password</label>
-                                <input type="password" name="password_confirmation" placeholder="Repeat new password" class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Last
+                                    Name *</label>
+                                <input type="text" name="last_name"
+                                    value="{{ old('last_name', auth()->user()->last_name ?: explode(' ', auth()->user()->name)[1] ?? '') }}"
+                                    required
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Email
+                                    Address *</label>
+                                <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}"
+                                    required
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Mobile
+                                    Phone Number</label>
+                                <input type="text" name="phone" value="{{ old('phone', auth()->user()->phone) }}"
+                                    placeholder="0917 123 4567"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Company
+                                / Cafe Name (Optional)</label>
+                            <input type="text" name="company" value="{{ old('company', auth()->user()->company) }}"
+                                placeholder="e.g. Kyoto Cafe"
+                                class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="pt-3 border-t border-stone-100 space-y-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-matcha-900 flex items-center gap-1.5">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                            <span>Default Shipping & Delivery Address</span>
+                        </h4>
+
+                        <div>
+                            <label
+                                class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Street
+                                Address / House No. / Building</label>
+                            <input type="text" name="address" value="{{ old('address', auth()->user()->address) }}"
+                                placeholder="123 Matcha Ave, Unit 4B"
+                                class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Apartment
+                                    / Suite / Unit</label>
+                                <input type="text" name="apartment"
+                                    value="{{ old('apartment', auth()->user()->apartment) }}"
+                                    placeholder="Tower 1, 12th Floor"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Barangay</label>
+                                <input type="text" name="barangay"
+                                    value="{{ old('barangay', auth()->user()->barangay) }}"
+                                    placeholder="Brgy. San Antonio"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">City
+                                    / Municipality</label>
+                                <input type="text" name="city" value="{{ old('city', auth()->user()->city) }}"
+                                    placeholder="Makati City"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Region
+                                    / Province</label>
+                                <input type="text" name="region" value="{{ old('region', auth()->user()->region) }}"
+                                    placeholder="Metro Manila"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1">Postal
+                                    Code</label>
+                                <input type="text" name="postal_code"
+                                    value="{{ old('postal_code', auth()->user()->postal_code) }}" placeholder="1203"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-matcha-600 outline-none">
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Actions -->
-                <div class="pt-4 border-t border-stone-100 flex items-center justify-end space-x-3">
-                    <button type="button" onclick="closeCustomerProfileModal()" class="px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-stone-600 hover:bg-stone-100 rounded-xl transition-colors">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-5 py-2.5 bg-matcha-800 hover:bg-matcha-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow transition-colors">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
+                    <!-- Password Change (Optional) -->
+                    <div class="pt-3 border-t border-stone-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-stone-800 flex items-center gap-1.5">
+                                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                                <span>Security & Password</span>
+                            </span>
+                            <span class="text-[10px] text-stone-400">Leave blank if no changes</span>
+                        </div>
+
+                        <div class="space-y-2.5">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-stone-600 mb-1">Current Password
+                                    (Required only to change password)</label>
+                                <input type="password" name="current_password" placeholder="••••••••"
+                                    class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-stone-600 mb-1">New Password</label>
+                                    <input type="password" name="password" placeholder="Min 6 characters"
+                                        class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-stone-600 mb-1">Confirm New
+                                        Password</label>
+                                    <input type="password" name="password_confirmation" placeholder="Repeat new password"
+                                        class="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="pt-4 border-t border-stone-100 flex items-center justify-end space-x-3">
+                        <button type="button" onclick="closeCustomerProfileModal()"
+                            class="px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-stone-600 hover:bg-stone-100 rounded-xl transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="px-5 py-2.5 bg-matcha-800 hover:bg-matcha-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow transition-colors">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     @endauth
 
     <script>
@@ -771,10 +901,10 @@
             refreshCartDrawer();
             cartDrawerContainer.classList.remove('pointer-events-none', 'opacity-0');
             cartDrawerContainer.classList.add('pointer-events-auto', 'opacity-100');
-            
+
             cartDrawerBackdrop.classList.remove('opacity-0');
             cartDrawerBackdrop.classList.add('opacity-100');
-            
+
             cartDrawerPanel.classList.remove('translate-x-full');
             cartDrawerPanel.classList.add('translate-x-0');
 
@@ -819,7 +949,9 @@
         async function refreshCartDrawer() {
             try {
                 const res = await fetch('/cart/data', {
-                    headers: { 'Accept': 'application/json' }
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 });
                 const data = await res.json();
                 renderCartDrawer(data);
@@ -850,9 +982,22 @@
                 cartDrawerCountBadge.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
             }
 
-            // Update subtotal
+            // Update subtotal & savings
             if (cartDrawerSubtotal) {
                 cartDrawerSubtotal.textContent = subtotalFormatted;
+            }
+
+            const savingsRow = document.getElementById('cart-drawer-savings-row');
+            const savingsText = document.getElementById('cart-drawer-savings');
+            if (savingsRow && savingsText) {
+                if (data.total_savings && data.total_savings > 0) {
+                    savingsText.textContent = `-${data.formatted_savings}`;
+                    savingsRow.classList.remove('hidden');
+                    savingsRow.classList.add('flex');
+                } else {
+                    savingsRow.classList.add('hidden');
+                    savingsRow.classList.remove('flex');
+                }
             }
 
             // Render list
@@ -870,8 +1015,19 @@
 
                 let html = '';
                 items.forEach(item => {
-                    const itemTotal = (item.price * item.quantity).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    const unitPrice = item.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    const itemTotal = (item.line_total || (item.price * item.quantity)).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    const unitPrice = item.price.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    const origPrice = (item.original_price || item.price).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    const hasDiscount = item.discount_percent && item.discount_percent > 0;
                     const productUrl = `/product/${item.slug || ''}`;
 
                     html += `
@@ -892,10 +1048,22 @@
                                     </button>
                                 </div>
 
-                                <div class="text-[11px] text-stone-500 mt-0.5">
+                                <div class="text-[11px] text-stone-500 mt-0.5 flex flex-wrap items-center gap-1">
                                     <span class="bg-stone-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-stone-700">${item.weight}</span>
-                                    <span class="ml-1 font-sans">₱${unitPrice} each</span>
+                                    <span class="font-sans">
+                                        ${hasDiscount ? `<span class="line-through text-stone-400 text-[10px] mr-0.5">₱${origPrice}</span>` : ''}
+                                        ₱${unitPrice} each
+                                    </span>
                                 </div>
+
+                                ${hasDiscount ? `
+                                        <div class="mt-1">
+                                            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-md border border-emerald-200">
+                                                <i data-lucide="percent" class="w-3 h-3 text-emerald-600"></i>
+                                                <span>${item.discount_label || item.discount_percent + '% Bulk Tier'}</span>
+                                            </span>
+                                        </div>
+                                    ` : ''}
 
                                 <div class="flex items-center justify-between mt-3">
                                     <!-- Stepper -->
@@ -910,9 +1078,14 @@
                                     </div>
 
                                     <!-- Total for item -->
-                                    <span class="text-xs sm:text-sm font-sans font-bold text-stone-950">
-                                        ₱${itemTotal}
-                                    </span>
+                                    <div class="text-right">
+                                        <span class="text-xs sm:text-sm font-sans font-bold text-stone-950 block">
+                                            ₱${itemTotal}
+                                        </span>
+                                        ${hasDiscount && item.line_savings > 0 ? `
+                                                <span class="text-[9.5px] text-emerald-700 font-mono block">Saved ₱${item.line_savings.toFixed(2)}</span>
+                                            ` : ''}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -927,14 +1100,17 @@
         async function changeDrawerQty(variantId, newQty) {
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             try {
-                const res = await fetch('{{ route("cart.update") }}', {
+                const res = await fetch('{{ route('cart.update') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': token,
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ variant_id: variantId, quantity: newQty })
+                    body: JSON.stringify({
+                        variant_id: variantId,
+                        quantity: newQty
+                    })
                 });
                 const data = await res.json();
                 if (data.success) {
@@ -948,14 +1124,16 @@
         async function removeDrawerItem(variantId) {
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             try {
-                const res = await fetch('{{ route("cart.remove") }}', {
+                const res = await fetch('{{ route('cart.remove') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': token,
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ variant_id: variantId })
+                    body: JSON.stringify({
+                        variant_id: variantId
+                    })
                 });
                 const data = await res.json();
                 if (data.success) {
@@ -973,7 +1151,7 @@
         function openQuickAddModal(productData) {
             if (!productData) return;
             currentQuickProduct = productData;
-            
+
             document.getElementById('quick-modal-image').src = productData.image;
             document.getElementById('quick-modal-title').textContent = productData.name;
             document.getElementById('quick-modal-qty').value = 1;
@@ -996,13 +1174,14 @@
                             ? 'bg-black text-white border-black font-semibold shadow-sm' 
                             : 'bg-white text-stone-900 border-stone-200 hover:border-stone-400 font-normal'
                     } ${variant.is_sold_out ? 'opacity-40 cursor-not-allowed line-through' : ''}`;
-                    
+
                     let weightText = variant.weight;
-                    if (weightText.toLowerCase().includes('1kg') && !weightText.toLowerCase().includes('wholesale')) {
+                    if (weightText.toLowerCase().includes('1kg') && !weightText.toLowerCase().includes(
+                        'wholesale')) {
                         weightText += ' for Wholesale';
                     }
                     btn.textContent = weightText;
-                    
+
                     btn.onclick = () => {
                         if (variant.is_sold_out) return;
                         selectQuickModalVariant(variant.id);
@@ -1029,15 +1208,18 @@
 
         function selectQuickModalVariant(variantId) {
             currentSelectedVariantId = variantId;
-            
+
             // Update active styles
             const buttons = document.querySelectorAll('#quick-modal-variants button');
             currentQuickProduct.variants.forEach((v, idx) => {
                 if (buttons[idx]) {
                     if (v.id === variantId) {
-                        buttons[idx].className = 'px-5 py-2.5 rounded-xl text-xs transition-all border bg-black text-white border-black font-semibold shadow-sm';
+                        buttons[idx].className =
+                            'px-5 py-2.5 rounded-xl text-xs transition-all border bg-black text-white border-black font-semibold shadow-sm';
                     } else {
-                        buttons[idx].className = 'px-5 py-2.5 rounded-xl text-xs transition-all border bg-white text-stone-900 border-stone-200 hover:border-stone-400 font-normal ' + (v.is_sold_out ? 'opacity-40 cursor-not-allowed line-through' : '');
+                        buttons[idx].className =
+                            'px-5 py-2.5 rounded-xl text-xs transition-all border bg-white text-stone-900 border-stone-200 hover:border-stone-400 font-normal ' +
+                            (v.is_sold_out ? 'opacity-40 cursor-not-allowed line-through' : '');
                     }
                 }
             });
@@ -1051,7 +1233,10 @@
             if (!variant) return;
 
             const priceEl = document.getElementById('quick-modal-price');
-            priceEl.textContent = '₱' + Number(variant.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            priceEl.textContent = '₱' + Number(variant.price).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
 
             const addBtn = document.getElementById('quick-modal-add-btn');
             const buyBtn = document.getElementById('quick-modal-buy-btn');
@@ -1114,7 +1299,7 @@
             addBtn.innerHTML = `<span>Adding...</span>`;
 
             try {
-                const res = await fetch('{{ route("cart.add") }}', {
+                const res = await fetch('{{ route('cart.add') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1131,7 +1316,7 @@
                 if (data.success) {
                     closeQuickAddModal();
                     if (redirectToCheckout) {
-                        window.location.href = '{{ route("checkout.index") }}';
+                        window.location.href = '{{ route('checkout.index') }}';
                     } else {
                         renderCartDrawer(data);
                         openCartDrawer();
@@ -1152,4 +1337,3 @@
 </body>
 
 </html>
-
