@@ -164,10 +164,10 @@
                             class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('home') && !request()->has('category') ? 'font-semibold text-stone-950' : 'font-normal' }}">Home</a>
                         <a href="{{ route('shop.index') }}"
                             class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('shop.*') && !request('category') && !request('grade') ? 'font-semibold text-stone-950' : 'font-normal' }}">Matcha</a>
-                        <a href="{{ route('shop.index', ['category' => 'single-cultivar-reserve']) }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request('category') === 'single-cultivar-reserve' ? 'font-semibold text-stone-950' : 'font-normal' }}">Single Origin Matcha</a>
-                        <a href="{{ route('shop.index', ['category' => 'barista-and-culinary-blend']) }}"
-                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request('category') === 'barista-and-culinary-blend' ? 'font-semibold text-stone-950' : 'font-normal' }}">Matcha Blends</a>
+                        <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
+                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request('category') === 'single-origin-matcha' ? 'font-semibold text-stone-950' : 'font-normal' }}">Single Origin Matcha</a>
+                        <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
+                            class="text-stone-800 hover:text-stone-950 transition-colors {{ request('category') === 'matcha-blends' ? 'font-semibold text-stone-950' : 'font-normal' }}">Matcha Blends</a>
                         <a href="{{ route('about') }}"
                             class="text-stone-800 hover:text-stone-950 transition-colors {{ request()->routeIs('about') ? 'font-semibold text-stone-950' : 'font-normal' }}">About Us</a>
                         <a href="{{ route('contact') }}"
@@ -252,9 +252,9 @@
                 class="block text-sm font-medium text-stone-900 py-1.5">Home</a>
             <a href="{{ route('shop.index') }}"
                 class="block text-sm font-medium text-stone-900 py-1.5">Matcha</a>
-            <a href="{{ route('shop.index', ['category' => 'single-cultivar-reserve']) }}"
+            <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
                 class="block text-sm font-medium text-stone-900 py-1.5">Single Origin Matcha</a>
-            <a href="{{ route('shop.index', ['category' => 'barista-and-culinary-blend']) }}"
+            <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
                 class="block text-sm font-medium text-stone-900 py-1.5">Matcha Blends</a>
             <a href="{{ route('about') }}"
                 class="block text-sm font-medium text-stone-900 py-1.5">About Us</a>

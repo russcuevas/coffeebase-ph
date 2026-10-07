@@ -131,15 +131,112 @@
                             </h2>
                         </div>
 
+                        <!-- Payment Method Radio Choices -->
                         <div class="space-y-3">
-                            <label class="flex items-start p-4 rounded-xl border-2 border-matcha-700 bg-matcha-50/40 cursor-pointer transition-all">
-                                <input type="radio" name="payment_method" value="Cash on Delivery" checked class="mt-1 text-matcha-800 focus:ring-matcha-600">
-                                <div class="ml-3">
-                                    <span class="block text-sm font-bold text-stone-900">Cash on Delivery (COD)</span>
-                                    <span class="block text-xs text-stone-500">Pay directly in cash to the courier rider upon delivery of your order.</span>
+                            <!-- Option 1: Cash on Delivery -->
+                            <label id="label_cod" class="flex items-start p-4 rounded-xl border-2 {{ old('payment_method', 'Cash on Delivery') === 'Cash on Delivery' ? 'border-matcha-700 bg-matcha-50/40 ring-1 ring-matcha-700' : 'border-stone-200 bg-white hover:bg-stone-50' }} cursor-pointer transition-all">
+                                <input type="radio" name="payment_method" value="Cash on Delivery" {{ old('payment_method', 'Cash on Delivery') === 'Cash on Delivery' ? 'checked' : '' }} onchange="togglePaymentMethod('cod')" class="mt-1 text-matcha-800 focus:ring-matcha-600">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="block text-sm font-bold text-stone-900">Cash on Delivery (COD)</span>
+                                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800">Cash</span>
+                                    </div>
+                                    <span class="block text-xs text-stone-500 mt-0.5">Pay directly in cash to the courier rider upon delivery of your order.</span>
+                                </div>
+                            </label>
+
+                            <!-- Option 2: E-Payment (QRPh) -->
+                            <label id="label_epayment" class="flex items-start p-4 rounded-xl border-2 {{ old('payment_method') === 'E-Payment' ? 'border-matcha-700 bg-matcha-50/40 ring-1 ring-matcha-700' : 'border-stone-200 bg-white hover:bg-stone-50' }} cursor-pointer transition-all">
+                                <input type="radio" name="payment_method" value="E-Payment" {{ old('payment_method') === 'E-Payment' ? 'checked' : '' }} onchange="togglePaymentMethod('epayment')" class="mt-1 text-matcha-800 focus:ring-matcha-600">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <span class="block text-sm font-bold text-stone-900">E-Payment (QRPh Scan)</span>
+                                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Instant Verification</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 text-[11px] font-bold text-stone-600">
+                                            <span>GCash • Maya • Grab • Banks</span>
+                                        </div>
+                                    </div>
+                                    <span class="block text-xs text-stone-500 mt-0.5">Scan QRPh via GCash, Maya, GrabPay, or any Mobile Banking App.</span>
                                 </div>
                             </label>
                         </div>
+
+                        <!-- E-Payment QRPh Container (Visible when E-Payment is selected) -->
+                        <div id="epayment_container" class="{{ old('payment_method') === 'E-Payment' ? 'block' : 'hidden' }} mt-4 pt-4 border-t border-stone-200 space-y-4">
+                            <div class="bg-gradient-to-br from-matcha-50/60 to-emerald-50/40 p-5 sm:p-6 rounded-2xl border border-matcha-200 space-y-5">
+                                
+                                <div class="flex flex-col sm:flex-row items-center gap-6">
+                                    <!-- QR Code Display Frame -->
+                                    <div class="flex-shrink-0 bg-white p-3 rounded-2xl border border-stone-200 shadow-md text-center max-w-[220px]">
+                                        <div class="rounded-xl overflow-hidden border border-stone-100 bg-stone-50">
+                                            <img src="{{ asset('uploads/payments/qrph.jpg') }}" alt="QRPh Payment Code - Task Kyoto Consultancy" class="w-full h-auto object-contain hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="window.open(this.src, '_blank')">
+                                        </div>
+                                        <p class="text-[10px] text-stone-500 font-medium mt-2">
+                                            <i data-lucide="zoom-in" class="w-3 h-3 inline text-matcha-700"></i> Click image to enlarge / save
+                                        </p>
+                                    </div>
+
+                                    <!-- QR & Merchant Info -->
+                                    <div class="space-y-3 flex-1 text-xs">
+                                        <div class="bg-white/80 backdrop-blur-sm p-3.5 rounded-xl border border-matcha-200/80 space-y-1">
+                                            <div class="text-[10px] font-bold uppercase tracking-wider text-stone-400">Official Merchant / Account</div>
+                                            <div class="text-sm font-bold text-matcha-950 font-serif">Task Kyoto Consultancy Opc - Taguig</div>
+                                            <div class="text-[11px] text-stone-600 flex items-center gap-1.5 pt-1">
+                                                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                <span>QRPh Accepted (All major PH e-wallets & banks)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between bg-matcha-900 text-white p-3.5 rounded-xl">
+                                            <span class="text-xs uppercase tracking-wider font-semibold text-cream-200">Amount to Send:</span>
+                                            <span class="text-base font-serif font-bold text-gold-400">₱{{ number_format($total, 2) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step-by-Step Instructions -->
+                                <div class="bg-white rounded-xl p-4 sm:p-5 border border-stone-200 space-y-3 text-xs">
+                                    <h4 class="font-bold text-stone-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                                        <i data-lucide="info" class="w-4 h-4 text-matcha-700"></i>
+                                        <span>Payment Steps & Proof Verification</span>
+                                    </h4>
+
+                                    <ol class="space-y-2.5 text-stone-700 list-decimal list-inside pl-1 text-[11.5px] leading-relaxed">
+                                        <li><strong>Scan the QRPh code</strong> using GCash, Maya, GrabPay, ShopeePay, or any bank app.</li>
+                                        <li>Input the exact total amount: <strong class="text-matcha-900">₱{{ number_format($total, 2) }}</strong>.</li>
+                                        <li><strong>Copy the Reference / Transaction Number</strong> from your payment receipt and enter it in the box below.</li>
+                                        <li>
+                                            <strong>Take a screenshot of the payment receipt</strong> and send it to our Official Facebook Page for quick verification:
+                                            <div class="mt-2">
+                                                <a href="https://web.facebook.com/coffeebasephilippines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-lg text-xs font-bold shadow-sm transition-all">
+                                                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                                    <span>Send Proof to Facebook: Coffee Base Philippines</span>
+                                                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <!-- Payment Reference Input -->
+                                <div class="space-y-1.5">
+                                    <label for="checkout_payment_reference" class="block text-xs font-bold uppercase tracking-wider text-matcha-950">
+                                        Payment Reference Number / Transaction ID *
+                                    </label>
+                                    <input type="text" id="checkout_payment_reference" name="payment_reference" value="{{ old('payment_reference') }}" placeholder="e.g. 100492819283 / 20261002-XXXX" class="w-full px-4 py-3 rounded-xl border border-matcha-300 text-sm font-mono font-bold focus:ring-2 focus:ring-matcha-600 outline-none bg-white text-stone-900 placeholder:font-sans placeholder:font-normal">
+                                    <p class="text-[11px] text-stone-500">
+                                        Please enter the reference number shown on your GCash/Bank receipt. Admin will verify this against your Facebook message screenshot.
+                                    </p>
+                                    @error('payment_reference')
+                                        <p class="text-xs text-rose-600 font-bold mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -192,5 +289,35 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function togglePaymentMethod(method) {
+            const epaymentContainer = document.getElementById('epayment_container');
+            const refInput = document.getElementById('checkout_payment_reference');
+            const labelCod = document.getElementById('label_cod');
+            const labelEpayment = document.getElementById('label_epayment');
+
+            if (method === 'epayment') {
+                epaymentContainer.classList.remove('hidden');
+                refInput.setAttribute('required', 'required');
+                
+                labelEpayment.className = 'flex items-start p-4 rounded-xl border-2 border-matcha-700 bg-matcha-50/40 ring-1 ring-matcha-700 cursor-pointer transition-all';
+                labelCod.className = 'flex items-start p-4 rounded-xl border-2 border-stone-200 bg-white hover:bg-stone-50 cursor-pointer transition-all';
+            } else {
+                epaymentContainer.classList.add('hidden');
+                refInput.removeAttribute('required');
+                
+                labelCod.className = 'flex items-start p-4 rounded-xl border-2 border-matcha-700 bg-matcha-50/40 ring-1 ring-matcha-700 cursor-pointer transition-all';
+                labelEpayment.className = 'flex items-start p-4 rounded-xl border-2 border-stone-200 bg-white hover:bg-stone-50 cursor-pointer transition-all';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const epaymentRadio = document.querySelector('input[name="payment_method"][value="E-Payment"]');
+            if (epaymentRadio && epaymentRadio.checked) {
+                togglePaymentMethod('epayment');
+            }
+        });
+    </script>
 
 @endsection

@@ -87,7 +87,21 @@
                             <!-- Amount & Payment -->
                             <td class="p-3 whitespace-nowrap">
                                 <span class="font-serif font-bold text-stone-900 text-sm block">₱{{ number_format($order->total_amount, 2) }}</span>
-                                <span class="inline-block mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-stone-100 text-stone-600 border border-stone-200">{{ $order->payment_method }}</span>
+                                <div class="mt-1 space-y-1">
+                                    <div class="flex items-center gap-1">
+                                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase {{ $order->payment_method === 'E-Payment' ? 'bg-purple-100 text-purple-900 border border-purple-200' : 'bg-stone-100 text-stone-700 border border-stone-200' }}">
+                                            {{ $order->payment_method }}
+                                        </span>
+                                        <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
+                                            {{ ucfirst($order->payment_status) }}
+                                        </span>
+                                    </div>
+                                    @if($order->payment_reference)
+                                        <span class="text-[10px] font-mono text-matcha-900 font-semibold block truncate max-w-[130px]" title="Ref: {{ $order->payment_reference }}">
+                                            Ref: {{ $order->payment_reference }}
+                                        </span>
+                                    @endif
+                                </div>
                             </td>
 
                             <!-- Status & Tracking Link Indicator -->

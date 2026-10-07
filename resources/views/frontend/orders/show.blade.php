@@ -250,12 +250,38 @@
                         </p>
                     </div>
 
-                    <div class="pt-3 border-t border-stone-100">
+                    <div class="pt-3 border-t border-stone-100 space-y-2">
                         <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">Payment Details</span>
-                        <p class="font-semibold text-stone-900">{{ $order->payment_method }}</p>
-                        <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
-                            Payment {{ ucfirst($order->payment_status) }}
-                        </span>
+                        <div class="flex items-center justify-between">
+                            <p class="font-semibold text-stone-900">{{ $order->payment_method }}</p>
+                            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
+                                Payment {{ ucfirst($order->payment_status) }}
+                            </span>
+                        </div>
+
+                        @if($order->payment_reference)
+                            <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-200">
+                                <span class="text-[10px] uppercase font-bold text-stone-500 block">Payment Ref / Transaction No:</span>
+                                <span class="font-mono text-xs font-bold text-matcha-950">{{ $order->payment_reference }}</span>
+                            </div>
+                        @endif
+
+                        @if($order->payment_method === 'E-Payment' && $order->payment_status !== 'paid')
+                            <div class="bg-blue-50/70 p-3 rounded-xl border border-blue-200 space-y-2 text-[11px] text-blue-900">
+                                <p class="font-bold flex items-center gap-1.5">
+                                    <i data-lucide="info" class="w-3.5 h-3.5 text-blue-700"></i>
+                                    <span>Verification in Progress</span>
+                                </p>
+                                <p class="text-stone-600 leading-tight">
+                                    Kindly send your payment receipt screenshot to our official Facebook page with your Order Reference:
+                                </p>
+                                <a href="https://web.facebook.com/coffeebasephilippines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-lg font-bold text-[11px] transition-all shadow-xs">
+                                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                    <span>Send Screenshot to Facebook</span>
+                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
 
                     @if($order->customer_notes)

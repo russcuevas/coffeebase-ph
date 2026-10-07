@@ -38,6 +38,7 @@ return new class extends Migration
             // Payment & Status
             $table->string('payment_method')->default('Cash on Delivery');
             $table->string('payment_status')->default('pending'); // 'pending', 'paid', 'refunded'
+            $table->string('payment_reference')->nullable();
             $table->string('status')->default('pending'); // 'pending', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'
             
             // Live Tracking Link

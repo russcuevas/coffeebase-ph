@@ -38,12 +38,17 @@ class AdminOrderController extends Controller
             'tracking_link' => 'nullable|url|max:2000',
             'admin_notes' => 'nullable|string|max:1000',
             'payment_status' => 'nullable|in:pending,paid,refunded',
+            'payment_reference' => 'nullable|string|max:100',
         ]);
 
         $order->status = $validated['status'];
         $order->tracking_courier = $validated['tracking_courier'] ?? $order->tracking_courier;
         $order->tracking_link = $validated['tracking_link'] ?? $order->tracking_link;
         $order->admin_notes = $validated['admin_notes'] ?? $order->admin_notes;
+
+        if ($request->has('payment_reference')) {
+            $order->payment_reference = $validated['payment_reference'];
+        }
 
         if (!empty($validated['payment_status'])) {
             $order->payment_status = $validated['payment_status'];

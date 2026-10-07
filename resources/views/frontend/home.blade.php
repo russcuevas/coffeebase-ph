@@ -44,65 +44,76 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-                @foreach ($featuredProducts as $product)
-                    @php
-                        $isSoldOut = $product->is_sold_out;
-                        $minPrice = $product->min_price;
-                        $productData = [
-                            'id' => $product->id,
-                            'name' => $product->name,
-                            'slug' => $product->slug,
-                            'image' => $product->primary_image ?: '/uploads/products/samidori.jpg',
-                            'variants' => $product->variants->map(fn($v) => [
-                                'id' => $v->id,
-                                'weight' => $v->weight,
-                                'price' => (float)$v->price,
-                                'compare_at_price' => $v->compare_at_price ? (float)$v->compare_at_price : null,
-                                'is_sold_out' => (bool)($v->is_sold_out || $v->stock_quantity <= 0),
-                            ])->values()
-                        ];
-                    @endphp
-                    <div class="group block text-left">
-                        <!-- Product Image -->
-                        <div class="aspect-square bg-stone-50 rounded-2xl overflow-hidden relative mb-4 flex items-center justify-center p-2">
-                            <a href="{{ route('shop.show', $product->slug) }}" class="w-full h-full flex items-center justify-center">
-                                <img src="{{ $product->primary_image ?: '/uploads/products/samidori.jpg' }}"
-                                    alt="{{ $product->name }}"
-                                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 {{ $isSoldOut ? 'opacity-60 grayscale-[30%]' : '' }}">
-                            </a>
+            @if ($featuredProducts->isEmpty())
+                <div class="text-center py-16 bg-stone-50/80 rounded-2xl border border-stone-200/80 p-8">
+                    <i data-lucide="leaf" class="w-12 h-12 text-matcha-400 mx-auto mb-3"></i>
+                    <h3 class="text-lg sm:text-xl font-sans font-bold tracking-tight text-stone-800">No Featured Matcha Found</h3>
+                    <p class="text-xs text-stone-500 mt-1.5 font-light">Check back soon or explore our complete catalog.</p>
+                    <a href="{{ route('shop.index') }}" class="inline-block mt-5 px-6 py-2.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-wider rounded-xl shadow-xs transition-colors">
+                        Browse Catalog
+                    </a>
+                </div>
+            @else
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+                    @foreach ($featuredProducts as $product)
+                        @php
+                            $isSoldOut = $product->is_sold_out;
+                            $minPrice = $product->min_price;
+                            $productData = [
+                                'id' => $product->id,
+                                'name' => $product->name,
+                                'slug' => $product->slug,
+                                'image' => $product->primary_image ?: '/uploads/products/samidori.jpg',
+                                'variants' => $product->variants->map(fn($v) => [
+                                    'id' => $v->id,
+                                    'weight' => $v->weight,
+                                    'price' => (float)$v->price,
+                                    'compare_at_price' => $v->compare_at_price ? (float)$v->compare_at_price : null,
+                                    'is_sold_out' => (bool)($v->is_sold_out || $v->stock_quantity <= 0),
+                                ])->values()
+                            ];
+                        @endphp
+                        <div class="group block text-left">
+                            <!-- Product Image -->
+                            <div class="aspect-square bg-stone-50 rounded-2xl overflow-hidden relative mb-4 flex items-center justify-center p-2">
+                                <a href="{{ route('shop.show', $product->slug) }}" class="w-full h-full flex items-center justify-center">
+                                    <img src="{{ $product->primary_image ?: '/uploads/products/samidori.jpg' }}"
+                                        alt="{{ $product->name }}"
+                                        class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 {{ $isSoldOut ? 'opacity-60 grayscale-[30%]' : '' }}">
+                                </a>
 
-                            @if ($isSoldOut)
-                                <span class="absolute top-3 left-3 bg-stone-900 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded pointer-events-none">
-                                    Sold Out
-                                </span>
-                            @endif
+                                @if ($isSoldOut)
+                                    <span class="absolute top-3 left-3 bg-stone-900 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded pointer-events-none">
+                                        Sold Out
+                                    </span>
+                                @endif
 
-                            <!-- Floating Quick Add Button (Bottom Right) -->
-                            <button type="button"
-                                onclick="openQuickAddModal({{ json_encode($productData) }})"
-                                class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white text-stone-900 border border-stone-200/90 shadow-md hover:shadow-lg hover:scale-110 active:scale-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
-                                title="Quick Add {{ $product->name }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-stone-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/>
-                                </svg>
-                            </button>
+                                <!-- Floating Quick Add Button (Bottom Right) -->
+                                <button type="button"
+                                    onclick="openQuickAddModal({{ json_encode($productData) }})"
+                                    class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white text-stone-900 border border-stone-200/90 shadow-md hover:shadow-lg hover:scale-110 active:scale-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
+                                    title="Quick Add {{ $product->name }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-stone-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Product Title -->
+                            <h3 class="text-sm sm:text-base font-sans font-normal text-stone-900 group-hover:text-matcha-800 transition-colors leading-snug line-clamp-2">
+                                <a href="{{ route('shop.show', $product->slug) }}">
+                                    {{ $product->name }}
+                                </a>
+                            </h3>
+
+                            <!-- Product Price -->
+                            <p class="text-sm font-sans font-semibold text-stone-950 mt-1.5">
+                                ₱{{ number_format($minPrice, 2) }}
+                            </p>
                         </div>
-
-                        <!-- Product Title -->
-                        <h3 class="text-sm sm:text-base font-sans font-normal text-stone-900 group-hover:text-matcha-800 transition-colors leading-snug line-clamp-2">
-                            <a href="{{ route('shop.show', $product->slug) }}">
-                                {{ $product->name }}
-                            </a>
-                        </h3>
-
-                        <!-- Product Price -->
-                        <p class="text-sm font-sans font-semibold text-stone-950 mt-1.5">
-                            ₱{{ number_format($minPrice, 2) }}
-                        </p>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </section>
 

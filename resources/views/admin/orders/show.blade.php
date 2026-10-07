@@ -27,12 +27,49 @@
             
             <!-- Status Update Action Card -->
             <div class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-5">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-matcha-950 pb-3 border-b border-stone-100 flex items-center gap-2">
-                    <i data-lucide="refresh-cw" class="w-4 h-4 text-gold-500"></i>
-                    <span>Update Order & Courier Dispatch Status</span>
-                </h3>
+                <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-matcha-950 flex items-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4 text-gold-500"></i>
+                        <span>Update Order & Courier Dispatch Status</span>
+                    </h3>
+                    <span class="text-xs px-2.5 py-1 rounded-full font-bold uppercase {{ $order->payment_method === 'E-Payment' ? 'bg-purple-100 text-purple-900 border border-purple-300' : 'bg-stone-100 text-stone-800' }}">
+                        {{ $order->payment_method }}
+                    </span>
+                </div>
 
-                <form action="{{ route('admin.orders.update_status', $order->id) }}" method="POST" class="space-y-4">
+                @if($order->payment_method === 'E-Payment')
+                    <!-- E-Payment Verification Alert -->
+                    <div class="p-4 rounded-xl border {{ $order->payment_status === 'paid' ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-amber-50 border-amber-300 text-amber-950' }} space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="{{ $order->payment_status === 'paid' ? 'check-circle' : 'alert-circle' }}" class="w-5 h-5 {{ $order->payment_status === 'paid' ? 'text-emerald-700' : 'text-amber-700' }}"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">
+                                    {{ $order->payment_status === 'paid' ? 'E-Payment Verified & Paid' : 'E-Payment Proof Verification Needed' }}
+                                </span>
+                            </div>
+                            <a href="https://web.facebook.com/coffeebasephilippines" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-lg text-xs font-bold transition-all shadow-xs w-fit">
+                                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                <span>Open Facebook Inbox</span>
+                                <i data-lucide="external-link" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+
+                        <div class="bg-white/80 p-3 rounded-lg border border-black/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-stone-500 block">Customer Submitted Reference Number:</span>
+                                <span class="font-mono text-sm font-extrabold text-matcha-950 select-all">{{ $order->payment_reference ?? 'No reference number entered' }}</span>
+                            </div>
+                            @if($order->payment_status !== 'paid')
+                                <button type="button" onclick="quickVerifyPaid()" class="px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all">
+                                    <i data-lucide="check-check" class="w-4 h-4"></i>
+                                    <span>Tag as Paid & Preparing</span>
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                <form id="order-status-form" action="{{ route('admin.orders.update_status', $order->id) }}" method="POST" class="space-y-4">
                     @csrf
                     
                     <div>
@@ -69,7 +106,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
                             <label for="admin_payment_status" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">Payment Status</label>
                             <select id="admin_payment_status" name="payment_status" class="w-full px-3 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none bg-white font-semibold">
@@ -80,8 +117,13 @@
                         </div>
 
                         <div>
+                            <label for="admin_payment_ref" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">Payment Reference No.</label>
+                            <input type="text" id="admin_payment_ref" name="payment_reference" value="{{ old('payment_reference', $order->payment_reference) }}" placeholder="e.g. 100492819283" class="w-full px-3 py-2 rounded-lg border border-stone-300 text-xs font-mono focus:ring-2 focus:ring-matcha-600 outline-none">
+                        </div>
+
+                        <div>
                             <label for="admin_notes" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">Internal Admin Notes</label>
-                            <input type="text" id="admin_notes" name="admin_notes" value="{{ old('admin_notes', $order->admin_notes) }}" placeholder="e.g. Nitrogen-flushed batch #048" class="w-full px-3 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <input type="text" id="admin_notes" name="admin_notes" value="{{ old('admin_notes', $order->admin_notes) }}" placeholder="e.g. Batch verified" class="w-full px-3 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
                     </div>
 
@@ -187,16 +229,50 @@
                     Payment Method
                 </h3>
 
-                <div class="text-xs space-y-1">
-                    <p class="font-bold text-stone-900">{{ $order->payment_method }}</p>
-                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
-                        {{ ucfirst($order->payment_status) }}
-                    </span>
+                <div class="text-xs space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-stone-900">{{ $order->payment_method }}</span>
+                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
+                            {{ ucfirst($order->payment_status) }}
+                        </span>
+                    </div>
+
+                    @if($order->payment_reference)
+                        <div class="bg-stone-50 p-2.5 rounded-lg border border-stone-200 space-y-0.5">
+                            <span class="text-[10px] uppercase font-bold text-stone-400 block">Submitted Ref #:</span>
+                            <span class="font-mono text-xs font-extrabold text-matcha-950 block select-all">{{ $order->payment_reference }}</span>
+                        </div>
+                    @endif
+
+                    @if($order->payment_method === 'E-Payment')
+                        <div class="pt-2">
+                            <a href="https://web.facebook.com/coffeebasephilippines" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5">
+                                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                <span>Check Facebook Messages</span>
+                                <i data-lucide="external-link" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
 
         </div>
 
     </div>
+
+    <script>
+        function quickVerifyPaid() {
+            if (confirm('Tag this order as Paid and change status to Preparing?')) {
+                const statusSelect = document.getElementById('admin_order_status');
+                const paymentStatusSelect = document.getElementById('admin_payment_status');
+                const form = document.getElementById('order-status-form');
+
+                if (statusSelect) statusSelect.value = 'preparing';
+                if (paymentStatusSelect) paymentStatusSelect.value = 'paid';
+
+                form.submit();
+            }
+        }
+    </script>
 
 @endsection

@@ -53,8 +53,11 @@ class CheckoutController extends Controller
             'city' => 'required|string|max:100',
             'postal_code' => 'required|string|max:20',
             'region' => 'required|string|max:100',
-            'payment_method' => 'required|string',
+            'payment_method' => 'required|string|in:Cash on Delivery,E-Payment',
+            'payment_reference' => 'nullable|required_if:payment_method,E-Payment|string|max:100',
             'customer_notes' => 'nullable|string|max:1000',
+        ], [
+            'payment_reference.required_if' => 'Please enter the transaction reference number from your payment receipt.',
         ]);
 
         $subtotal = 0;
@@ -90,6 +93,7 @@ class CheckoutController extends Controller
                 'total_amount' => $totalAmount,
                 'payment_method' => $validated['payment_method'],
                 'payment_status' => 'pending',
+                'payment_reference' => $validated['payment_reference'] ?? null,
                 'status' => 'pending', // Default always pending
                 'customer_notes' => $validated['customer_notes'] ?? null,
             ]);

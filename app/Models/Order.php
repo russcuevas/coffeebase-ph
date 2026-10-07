@@ -29,6 +29,7 @@ class Order extends Model
         'total_amount',
         'payment_method',
         'payment_status',
+        'payment_reference',
         'status',
         'tracking_courier',
         'tracking_link',

@@ -123,8 +123,16 @@
                             <td class="p-4 text-stone-600">
                                 {{ $order->city }}, {{ $order->region }}
                             </td>
-                            <td class="p-4 font-serif font-bold text-stone-900 text-sm">
-                                ₱{{ number_format($order->total_amount, 2) }}
+                            <td class="p-4 whitespace-nowrap">
+                                <span class="font-serif font-bold text-stone-900 text-sm block">₱{{ number_format($order->total_amount, 2) }}</span>
+                                <div class="mt-1 flex items-center gap-1">
+                                    <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase {{ $order->payment_method === 'E-Payment' ? 'bg-purple-100 text-purple-900 border border-purple-200' : 'bg-stone-100 text-stone-600' }}">
+                                        {{ $order->payment_method }}
+                                    </span>
+                                    <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
+                                        {{ ucfirst($order->payment_status) }}
+                                    </span>
+                                </div>
                             </td>
                             <td class="p-4">
                                 <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
