@@ -89,7 +89,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Registration successful! Welcome to Coffee Base Philippines.');
+        return redirect()->intended(route('home'))->with('success', 'Registration successful! Welcome to Coffee Base Philippines.');
     }
 
     public function updateProfile(Request $request)

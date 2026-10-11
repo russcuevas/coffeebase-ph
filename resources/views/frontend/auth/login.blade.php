@@ -13,6 +13,16 @@
                 <p class="text-xs text-stone-500 mt-1">Sign in to track orders and manage your matcha deliveries</p>
             </div>
 
+            @if (session('error'))
+                <div class="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs flex items-start gap-3 shadow-xs">
+                    <i data-lucide="lock" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+                    <div>
+                        <p class="font-bold text-amber-900">{{ session('error') }}</p>
+                        <p class="text-[11px] text-amber-800/90 mt-0.5">Sign in to your account or create a new account to proceed with your matcha checkout.</p>
+                    </div>
+                </div>
+            @endif
+
             <!-- Quick Demo Credentials Box -->
             <div class="bg-cream-100 p-3.5 rounded-xl border border-cream-300 text-xs mb-6 space-y-1">
                 <span class="font-bold text-matcha-900 block uppercase tracking-wider text-[10px]">Demo Quick Login:</span>

@@ -82,6 +82,10 @@ class CheckoutController extends Controller
 
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect()->guest(route('login'))->with('error', 'Please login first before ordering.');
+        }
+
         $rawCart = session()->get('cart', []);
         
         if (empty($rawCart)) {
@@ -104,6 +108,10 @@ class CheckoutController extends Controller
 
     public function process(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->guest(route('login'))->with('error', 'Please login first before ordering.');
+        }
+
         $rawCart = session()->get('cart', []);
         
         if (empty($rawCart)) {

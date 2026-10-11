@@ -8,6 +8,10 @@
     <title>@yield('title', 'Coffee Base Philippines | Artisanal Japanese Matcha & Specialty Blends')</title>
     <meta name="description" content="@yield('meta_description', 'Directly sourced ceremonial and barista grade Japanese matcha from Uji, Kyoto and Yame, Fukuoka. Explore single cultivar reserves, whisk tools, and wholesale matcha in the Philippines.')">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('uploads/coffee-logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('uploads/coffee-logo.png') }}">
+
     <!-- Google Fonts (Japanese & Luxury Editorial Typography) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariant;
 
 class ShopController extends Controller
 {
@@ -44,15 +45,17 @@ class ShopController extends Controller
 
         // Sort
         if ($request->get('sort') === 'price_low') {
-            $query->join('product_variants', 'products.id', '=', 'product_variants.product_id')
-                  ->select('products.*')
-                  ->groupBy('products.id')
-                  ->orderByRaw('MIN(product_variants.price) ASC');
+            $query->orderBy(
+                ProductVariant::selectRaw('MIN(price)')
+                    ->whereColumn('product_variants.product_id', 'products.id'),
+                'asc'
+            );
         } elseif ($request->get('sort') === 'price_high') {
-            $query->join('product_variants', 'products.id', '=', 'product_variants.product_id')
-                  ->select('products.*')
-                  ->groupBy('products.id')
-                  ->orderByRaw('MAX(product_variants.price) DESC');
+            $query->orderBy(
+                ProductVariant::selectRaw('MAX(price)')
+                    ->whereColumn('product_variants.product_id', 'products.id'),
+                'desc'
+            );
         } else {
             $query->latest();
         }
