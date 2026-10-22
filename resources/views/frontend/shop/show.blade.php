@@ -209,68 +209,53 @@
 
                     <div class="bg-white rounded-xl border border-stone-200 overflow-hidden divide-y divide-stone-100 text-xs shadow-sm">
                         
-                        @if($product->grade)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Grade</span>
-                                <span class="col-span-2 text-stone-900 font-semibold">{{ $product->grade }}</span>
-                            </div>
-                        @endif
+                        {{-- 1. Type --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Type</span>
+                            <span class="col-span-2 text-stone-900 font-semibold">{{ $product->type ?: ($product->grade ?: '—') }}</span>
+                        </div>
 
-                        @if($product->flavor_notes)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Flavor Notes</span>
-                                <span class="col-span-2 text-stone-900">{{ $product->flavor_notes }}</span>
-                            </div>
-                        @endif
+                        {{-- 2. Origin --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Origin</span>
+                            <span class="col-span-2 text-stone-900 font-medium">{{ $product->origin ?: '—' }}</span>
+                        </div>
 
-                        @if($product->origin)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Origin</span>
-                                <span class="col-span-2 text-stone-900 font-medium">{{ $product->origin }}</span>
-                            </div>
-                        @endif
+                        {{-- 3. Cultivar --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Cultivar</span>
+                            <span class="col-span-2 text-stone-900 font-medium">{{ $product->cultivar ?: '—' }}</span>
+                        </div>
 
-                        @if($product->cultivar)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Cultivar</span>
-                                <span class="col-span-2 text-stone-900 font-medium">{{ $product->cultivar }}</span>
-                            </div>
-                        @endif
+                        {{-- 4. Plucking --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Plucking</span>
+                            <span class="col-span-2 text-stone-900">{{ $product->plucking ?: '—' }}</span>
+                        </div>
 
-                        @if($product->harvest)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Harvest</span>
-                                <span class="col-span-2 text-stone-900">{{ $product->harvest }}</span>
-                            </div>
-                        @endif
+                        {{-- 5. Harvest --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Harvest</span>
+                            <span class="col-span-2 text-stone-900">{{ $product->harvest ?: '—' }}</span>
+                        </div>
 
-                        @if($product->milling)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Milling</span>
-                                <span class="col-span-2 text-stone-900">{{ $product->milling }}</span>
-                            </div>
-                        @endif
+                        {{-- 6. Shading --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Shading</span>
+                            <span class="col-span-2 text-stone-900">{{ $product->shading ?: '—' }}</span>
+                        </div>
 
-                        @if($product->picking)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Picking</span>
-                                <span class="col-span-2 text-stone-900">{{ $product->picking }}</span>
-                            </div>
-                        @endif
+                        {{-- 7. Milling --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Milling</span>
+                            <span class="col-span-2 text-stone-900">{{ $product->milling ?: '—' }}</span>
+                        </div>
 
-                        @if($product->recommended_for)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Recommended For</span>
-                                <span class="col-span-2 text-stone-900 whitespace-pre-line">{{ $product->recommended_for }}</span>
-                            </div>
-                        @endif
-
-                        @if($product->storage)
-                            <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
-                                <span class="font-bold text-stone-500 uppercase tracking-wider">Storage</span>
-                                <span class="col-span-2 text-stone-900 whitespace-pre-line">{{ $product->storage }}</span>
-                            </div>
-                        @endif
+                        {{-- 8. Picking --}}
+                        <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
+                            <span class="font-bold text-stone-500 uppercase tracking-wider">Picking</span>
+                            <span class="col-span-2 text-stone-900">{{ $product->picking ?: '—' }}</span>
+                        </div>
 
                     </div>
                 </div>

@@ -386,12 +386,13 @@
 
                 <!-- Email Subscribe Input Pill -->
                 <div class="w-full md:w-auto md:min-w-[420px]">
-                    <form action="#" method="POST"
-                        onsubmit="event.preventDefault(); showToast('success', 'Thank you for subscribing to COFFEE BASE Philippines!'); this.reset();"
+                    <form action="{{ route('stay.connected') }}" method="POST" id="stay-connected-form"
+                        onsubmit="handleStayConnected(event, this)"
                         class="relative flex items-center">
-                        <input type="email" required placeholder="Email address"
+                        @csrf
+                        <input type="email" name="email" id="stay-connected-email" required placeholder="Enter your email address"
                             class="w-full pl-6 pr-14 py-3.5 text-xs rounded-full border border-stone-300 focus:border-stone-900 focus:ring-1 focus:ring-stone-900 outline-none transition-all placeholder:text-stone-400 bg-white">
-                        <button type="submit" aria-label="Subscribe"
+                        <button type="submit" id="stay-connected-btn" aria-label="Subscribe"
                             class="absolute right-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors">
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
@@ -1336,6 +1337,91 @@
                 addBtn.innerHTML = originalText;
             }
         }
+
+        function showToast(type, message) {
+            let container = document.getElementById('global-toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'global-toast-container';
+                container.className = 'fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            const isSuccess = type === 'success';
+            toast.className = `pointer-events-auto flex items-start gap-3 p-4 rounded-2xl shadow-xl border text-xs transform transition-all duration-300 translate-y-4 opacity-0 ${
+                isSuccess ? 'bg-[#1a2f23] text-cream-50 border-matcha-700' : 'bg-rose-950 text-rose-100 border-rose-800'
+            }`;
+            toast.innerHTML = `
+                <div class="shrink-0 mt-0.5">
+                    ${isSuccess 
+                        ? '<svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>'
+                        : '<svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'
+                    }
+                </div>
+                <div class="flex-1 font-medium leading-relaxed">${message}</div>
+            `;
+
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 6000);
+        }
+
+        async function handleStayConnected(e, form) {
+            e.preventDefault();
+            const input = form.querySelector('input[name="email"]');
+            const btn = form.querySelector('button[type="submit"]');
+            const email = input.value.trim();
+            if (!email) return;
+
+            const originalBtnHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="inline-block w-4 h-4 border-2 border-stone-800 border-t-transparent rounded-full animate-spin"></span>';
+
+            try {
+                const res = await fetch('{{ route('stay.connected') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showToast('success', data.message || 'Thank you for staying connected!');
+                    form.reset();
+                } else {
+                    showToast('error', data.message || 'Please enter a valid email address.');
+                }
+            } catch (err) {
+                console.error('Stay connected error:', err);
+                showToast('error', 'Something went wrong. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnHtml;
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        @if (session('success'))
+            document.addEventListener('DOMContentLoaded', () => {
+                showToast('success', @json(session('success')));
+            });
+        @endif
+        @if (session('error'))
+            document.addEventListener('DOMContentLoaded', () => {
+                showToast('error', @json(session('error')));
+            });
+        @endif
     </script>
     @yield('scripts')
 </body>

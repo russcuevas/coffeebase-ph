@@ -52,54 +52,49 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="m_grade" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Grade</label>
-                            <input type="text" id="m_grade" name="grade" value="{{ old('grade', 'Ceremonial') }}" placeholder="e.g. Ceremonial / Barista Blend" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <label for="m_type" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Type</label>
+                            <input type="text" id="m_type" name="type" value="{{ old('type') }}" placeholder="e.g. Ceremonial / Barista Blend" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
 
                         <div>
                             <label for="m_origin" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Origin</label>
-                            <input type="text" id="m_origin" name="origin" value="{{ old('origin', 'Uji, Kyoto') }}" placeholder="e.g. Uji, Kyoto" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <input type="text" id="m_origin" name="origin" value="{{ old('origin') }}" placeholder="e.g. Uji, Kyoto" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
-                    </div>
-
-                    <div>
-                        <label for="m_flavor" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Flavor Notes</label>
-                        <input type="text" id="m_flavor" name="flavor_notes" value="{{ old('flavor_notes', 'Creamy Umami • Sweet Pea • Fresh Greens • Mellow Finish') }}" placeholder="e.g. Creamy Umami • Sweet Pea • Fresh Greens • Mellow Finish" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="m_cultivar" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Cultivar</label>
-                            <input type="text" id="m_cultivar" name="cultivar" value="{{ old('cultivar', 'Samidori') }}" placeholder="e.g. Samidori / Okumidori / Yabukita" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <input type="text" id="m_cultivar" name="cultivar" value="{{ old('cultivar') }}" placeholder="e.g. Samidori / Okumidori / Yabukita" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
 
                         <div>
+                            <label for="m_plucking" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Plucking</label>
+                            <input type="text" id="m_plucking" name="plucking" value="{{ old('plucking') }}" placeholder="e.g. First Pluck / Ichibancha" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
                             <label for="m_harvest" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Harvest</label>
-                            <input type="text" id="m_harvest" name="harvest" value="{{ old('harvest', '1st Flush') }}" placeholder="e.g. 1st Flush / Spring 2024" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <input type="text" id="m_harvest" name="harvest" value="{{ old('harvest') }}" placeholder="e.g. 1st Flush / Spring 2024" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                        </div>
+
+                        <div>
+                            <label for="m_shading" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Shading</label>
+                            <input type="text" id="m_shading" name="shading" value="{{ old('shading') }}" placeholder="e.g. 20 Days / 30 Days" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="m_milling" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Milling</label>
-                            <input type="text" id="m_milling" name="milling" value="{{ old('milling', 'Ball Mill') }}" placeholder="e.g. Ball Mill / Stone Mill" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
+                            <input type="text" id="m_milling" name="milling" value="{{ old('milling') }}" placeholder="e.g. Ball Mill / Stone Mill" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
 
                         <div>
                             <label for="m_picking" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Picking</label>
-                            <input type="text" id="m_picking" name="picking" value="{{ old('picking', 'Shears') }}" placeholder="e.g. Shears / Hand Picked" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label for="m_recommended" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Recommended For</label>
-                            <textarea id="m_recommended" name="recommended_for" rows="2" placeholder="Usucha&#10;Matcha Latte" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">{{ old('recommended_for', "Usucha\nMatcha Latte") }}</textarea>
-                        </div>
-
-                        <div>
-                            <label for="m_storage" class="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1">Storage</label>
-                            <textarea id="m_storage" name="storage" rows="2" placeholder="Keep refrigerated after opening.&#10;Avoid heat, light and humidity." class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">{{ old('storage', "Keep refrigerated after opening.\nAvoid heat, light and humidity.") }}</textarea>
+                            <input type="text" id="m_picking" name="picking" value="{{ old('picking') }}" placeholder="e.g. Shears / Hand Picked" class="w-full px-4 py-2 rounded-lg border border-stone-300 text-xs focus:ring-2 focus:ring-matcha-600 outline-none">
                         </div>
                     </div>
                 </div>

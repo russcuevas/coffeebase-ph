@@ -23,18 +23,15 @@
                 </div>
             @endif
 
-            <!-- Quick Demo Credentials Box -->
-            <div class="bg-cream-100 p-3.5 rounded-xl border border-cream-300 text-xs mb-6 space-y-1">
-                <span class="font-bold text-matcha-900 block uppercase tracking-wider text-[10px]">Demo Quick Login:</span>
-                <div class="text-stone-700 flex justify-between">
-                    <span>Admin: <strong>admin@coffeebase.ph</strong></span>
-                    <span class="font-mono">admin12345</span>
+            @if (session('status'))
+                <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-start gap-3 shadow-xs">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-700 shrink-0 mt-0.5"></i>
+                    <div>
+                        <p class="font-bold text-emerald-950">Success!</p>
+                        <p class="text-[11px] text-emerald-800/90 mt-0.5">{{ session('status') }}</p>
+                    </div>
                 </div>
-                <div class="text-stone-700 flex justify-between">
-                    <span>Customer: <strong>customer@example.com</strong></span>
-                    <span class="font-mono">customer12345</span>
-                </div>
-            </div>
+            @endif
 
             <form action="{{ route('login') }}" method="POST" class="space-y-4">
                 @csrf
@@ -49,10 +46,14 @@
                 </div>
 
                 <div class="flex items-center justify-between text-xs text-stone-600 pt-1">
-                    <label class="flex items-center space-x-2">
+                    <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="checkbox" name="remember" class="rounded text-matcha-800 focus:ring-matcha-600">
                         <span>Remember me</span>
                     </label>
+
+                    <a href="{{ route('password.request') }}" class="font-semibold text-matcha-800 hover:text-matcha-950 hover:underline">
+                        Forgot password?
+                    </a>
                 </div>
 
                 <button type="submit" class="w-full py-3.5 bg-matcha-800 hover:bg-matcha-900 text-cream-50 text-xs font-bold uppercase tracking-[0.2em] rounded-lg shadow-md hover:shadow-lg transition-all mt-4">
