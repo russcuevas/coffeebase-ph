@@ -26,8 +26,8 @@ use App\Http\Controllers\Admin\AdminContactController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-Route::post('/contact', [HomeController::class, 'contactSubmit'])->name('contact.submit');
-Route::post('/stay-connected', [HomeController::class, 'stayConnected'])->name('stay.connected');
+Route::post('/contact', [HomeController::class, 'contactSubmit'])->middleware('throttle:5,1')->name('contact.submit');
+Route::post('/stay-connected', [HomeController::class, 'stayConnected'])->middleware('throttle:5,1')->name('stay.connected');
 
 // Shop & Catalog
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');

@@ -42,6 +42,56 @@ class HomeController extends Controller
 
     public function contactSubmit(Request $request)
     {
+        // 1. Silent Honeypot anti-spam check (catches bots that fill every input)
+        if (!empty($request->input('_hp_website'))) {
+            return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+        }
+
+        // 2. Time-trap & Scraper Check:
+        // Real users load the page and take > 3s to submit.
+        // Direct curl / XRumer bot scripts that don't load the form or submit in < 3s get dropped.
+        $formTime = $request->input('_form_time');
+        if (!$formTime) {
+            // Direct POST request without rendering the blade form
+            Log::info('Spam bot blocked (Missing _form_time): ' . ($request->input('email') ?? 'unknown'));
+            return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+        }
+
+        try {
+            $timestamp = decrypt($formTime);
+            if ((time() - (int)$timestamp) < 3) {
+                // Submitted inhumanly fast (< 3 seconds)
+                Log::info('Spam bot blocked (Submitted too fast): ' . ($request->input('email') ?? 'unknown'));
+                return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+            }
+        } catch (\Throwable $e) {
+            // Invalid encrypted token
+            return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+        }
+
+        // Combine inputs to scan for spam patterns
+        $textToScan = ($request->input('name') ?? '') . ' ' . 
+                      ($request->input('email') ?? '') . ' ' . 
+                      ($request->input('comment') ?? '');
+
+        // 3. Block Cyrillic / Russian characters (Targeting "Вам перевод ... руб" spam network)
+        if (preg_match('/[\p{Cyrillic}]/u', $textToScan)) {
+            Log::info('Spam bot blocked (Cyrillic detected): ' . ($request->input('email') ?? 'unknown'));
+            return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+        }
+
+        // 4. Block Spam Keywords (Russian wire scam phrases, telegram/crypto spam)
+        if (preg_match('/(руб|перевод|получить тут|забрать тут|fredm|telegram|casino)/iu', $textToScan)) {
+            Log::info('Spam bot blocked (Keyword pattern): ' . ($request->input('email') ?? 'unknown'));
+            return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+        }
+
+        // 5. Block known bot names
+        if (strtolower(trim($request->input('name') ?? '')) === 'duchdula') {
+            Log::info('Spam bot blocked (Known bot name duchdula)');
+            return back()->with('success', 'Arigatou! Your message has been received. Our matcha team will get back to you shortly.');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -73,6 +123,17 @@ class HomeController extends Controller
 
     public function stayConnected(Request $request)
     {
+        // Silent Honeypot anti-spam check
+        if (!empty($request->input('_hp_website'))) {
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Thank you for staying connected! We have sent a confirmation email to your inbox.',
+                ]);
+            }
+            return back()->with('success', 'Thank you for staying connected! We have sent a confirmation email to your inbox.');
+        }
+
         $validated = $request->validate([
             'email' => 'required|email|max:255',
         ]);

@@ -44,5 +44,11 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Http\Exceptions\ThrottleRequestsException $e, $request) {
+            if (! $request->expectsJson()) {
+                return back()->with('error', 'Too many requests. Please wait a moment before trying again.');
+            }
+        });
     }
 }

@@ -121,8 +121,36 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('contact.submit') }}" method="POST" class="space-y-5 pt-2">
+                    @if (session('error'))
+                        <div
+                            class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-3">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0"></i>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-xs space-y-1">
+                            @foreach ($errors->all() as $err)
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 flex-shrink-0"></i>
+                                    <span>{{ $err }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <form id="contactForm" action="{{ route('contact.submit') }}" method="POST" class="space-y-5 pt-2">
                         @csrf
+
+                        {{-- Anti-Spam Invisible Honeypot (Traps automated spam bots) --}}
+                        <div style="display:none !important;" aria-hidden="true">
+                            <input type="text" name="_hp_website" tabindex="-1" autocomplete="off" value="">
+                        </div>
+
+                        {{-- Anti-Bot Time-Trap: Ensures form was actually loaded in browser and not instantly scripted --}}
+                        <input type="hidden" name="_form_time" value="{{ encrypt(time()) }}">
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div>
                                 <label for="contact_name"
@@ -161,9 +189,16 @@
                                 class="w-full px-4 py-3 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-matcha-700 outline-none bg-[#fbfaf6] focus:bg-white transition-all">{{ old('comment') }}</textarea>
                         </div>
 
-                        <button type="submit"
-                            class="w-full py-4 bg-stone-950 hover:bg-matcha-900 text-cream-50 text-xs font-mono font-semibold uppercase tracking-[0.2em] rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
-                            Send Message
+                        <button type="submit" id="contactSubmitBtn"
+                            class="w-full py-4 bg-stone-950 hover:bg-matcha-900 text-cream-50 text-xs font-mono font-semibold uppercase tracking-[0.2em] rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                            <span id="contactBtnText">Send Message</span>
+                            <span id="contactBtnSpinner" class="hidden items-center gap-2">
+                                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span>Sending Message...</span>
+                            </span>
                         </button>
                     </form>
                 </div>
@@ -172,4 +207,21 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('contactForm');
+            if (!form) return;
+            form.addEventListener('submit', function () {
+                const btn = document.getElementById('contactSubmitBtn');
+                const text = document.getElementById('contactBtnText');
+                const spinner = document.getElementById('contactBtnSpinner');
+                if (btn && text && spinner) {
+                    btn.disabled = true;
+                    text.classList.add('hidden');
+                    spinner.classList.remove('hidden');
+                    spinner.classList.add('flex');
+                }
+            });
+        });
+    </script>
 @endsection

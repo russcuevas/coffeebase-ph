@@ -390,6 +390,10 @@
                         onsubmit="handleStayConnected(event, this)"
                         class="relative flex items-center">
                         @csrf
+                        {{-- Anti-Spam Honeypot --}}
+                        <div style="display:none !important;" aria-hidden="true">
+                            <input type="text" name="_hp_website" id="stay-connected-hp" tabindex="-1" autocomplete="off" value="">
+                        </div>
                         <input type="email" name="email" id="stay-connected-email" required placeholder="Enter your email address"
                             class="w-full pl-6 pr-14 py-3.5 text-xs rounded-full border border-stone-300 focus:border-stone-900 focus:ring-1 focus:ring-stone-900 outline-none transition-all placeholder:text-stone-400 bg-white">
                         <button type="submit" id="stay-connected-btn" aria-label="Subscribe"
@@ -1381,6 +1385,9 @@
             if (!email) return;
 
             const originalBtnHtml = btn.innerHTML;
+            const hpInput = form.querySelector('input[name="_hp_website"]');
+            const _hp_website = hpInput ? hpInput.value : '';
+
             btn.disabled = true;
             btn.innerHTML = '<span class="inline-block w-4 h-4 border-2 border-stone-800 border-t-transparent rounded-full animate-spin"></span>';
 
@@ -1392,8 +1399,13 @@
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ email })
+                    body: JSON.stringify({ email, _hp_website })
                 });
+
+                if (res.status === 429) {
+                    showToast('error', 'Too many requests. Please wait a moment before trying again.');
+                    return;
+                }
 
                 const data = await res.json();
                 if (data.success) {
@@ -1411,17 +1423,6 @@
                 if (window.lucide) lucide.createIcons();
             }
         }
-
-        @if (session('success'))
-            document.addEventListener('DOMContentLoaded', () => {
-                showToast('success', @json(session('success')));
-            });
-        @endif
-        @if (session('error'))
-            document.addEventListener('DOMContentLoaded', () => {
-                showToast('error', @json(session('error')));
-            });
-        @endif
     </script>
     @yield('scripts')
 </body>
