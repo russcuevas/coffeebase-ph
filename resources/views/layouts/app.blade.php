@@ -174,13 +174,13 @@
                             class="transition-colors pb-0.5 {{ request()->routeIs('home') && !request()->has('category') ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
                             Home
                         </a>
-                        <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
-                            class="transition-colors pb-0.5 {{ request('category') === 'single-origin-matcha' || request('category') === 'singles-origin' || request('category') === 'single-origin' ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
-                            Singles Origin
+                        <a href="{{ route('shop.index', ['category' => 'premium']) }}"
+                            class="transition-colors pb-0.5 {{ request('category') === 'premium' || request('category') === 'single-origin-matcha' || request('category') === 'singles-origin' || request('category') === 'single-origin' ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            Premium
                         </a>
-                        <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
-                            class="transition-colors pb-0.5 {{ request('category') === 'matcha-blends' || request('category') === 'blends' ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
-                            Matcha Blends
+                        <a href="{{ route('shop.index', ['category' => 'barista']) }}"
+                            class="transition-colors pb-0.5 {{ request('category') === 'barista' || request('category') === 'matcha-blends' || request('category') === 'blends' ? 'text-stone-950 font-bold border-b border-stone-950' : 'text-stone-700 hover:text-stone-950' }}">
+                            Barista
                         </a>
                     </nav>
                 </div>
@@ -294,13 +294,13 @@
                     class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request()->routeIs('home') && !request()->has('category') ? 'font-bold text-matcha-800' : '' }}">
                     Home
                 </a>
-                <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
-                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request('category') === 'single-origin-matcha' ? 'font-bold text-matcha-800' : '' }}">
-                    Singles Origin
+                <a href="{{ route('shop.index', ['category' => 'premium']) }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request('category') === 'premium' || request('category') === 'single-origin-matcha' ? 'font-bold text-matcha-800' : '' }}">
+                    Premium
                 </a>
-                <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
-                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request('category') === 'matcha-blends' ? 'font-bold text-matcha-800' : '' }}">
-                    Matcha Blends
+                <a href="{{ route('shop.index', ['category' => 'barista']) }}"
+                    class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request('category') === 'barista' || request('category') === 'matcha-blends' ? 'font-bold text-matcha-800' : '' }}">
+                    Barista
                 </a>
                 <a href="{{ route('about') }}"
                     class="block py-2 text-stone-900 hover:text-matcha-700 border-b border-stone-100 {{ request()->routeIs('about') ? 'font-bold text-matcha-800' : '' }}">

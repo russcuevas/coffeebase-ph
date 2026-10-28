@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Coffee Base Philippines | Artisanal Japanese Matcha & Single Origin Reserves')
+@section('title', 'Coffee Base Philippines | Artisanal Japanese Matcha & Premium Reserves')
 @section('meta_description',
-    'Kyoto & Nishio single origin matcha and artisanal blends in the Philippines. Transparent
+    'Kyoto & Nishio premium matcha and artisanal barista blends in the Philippines. Transparent
     terroir, cultivars, and stone-milled ceremonial quality.')
 
 @section('content')
 
     <!-- =========================================================================
-             SECTION 1: HERO FULL-BLEED PHOTO / VIDEO WITH "OUR MATCHA" TEXT
-             ========================================================================= -->
+                 SECTION 1: HERO FULL-BLEED PHOTO / VIDEO WITH "OUR MATCHA" TEXT
+                 ========================================================================= -->
     <section
         class="relative w-full min-h-[92svh] lg:min-h-[96svh] flex flex-col items-center justify-center overflow-hidden bg-stone-950 text-white border-b border-stone-800">
 
@@ -57,13 +57,13 @@
             </div>
 
             <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
-                <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
+                <a href="{{ route('shop.index', ['category' => 'premium']) }}"
                     class="px-8 py-3.5 bg-white text-stone-950 hover:bg-cream-200 text-xs font-mono font-semibold uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl">
-                    Explore Singles Origin
+                    Explore Premium
                 </a>
-                <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
+                <a href="{{ route('shop.index', ['category' => 'barista']) }}"
                     class="px-8 py-3.5 border border-white/70 text-white hover:bg-white/15 backdrop-blur-xs text-xs font-mono font-semibold uppercase tracking-[0.2em] transition-all">
-                    Discover Blends
+                    Discover Barista
                 </a>
             </div>
 
@@ -76,8 +76,8 @@
     </section>
 
     <!-- =========================================================================
-             SECTION 2: FULL-WIDTH EDITORIAL PHOTO 1 (NISHIO TEA GARDEN CANOPY)
-             ========================================================================= -->
+                 SECTION 2: FULL-WIDTH EDITORIAL PHOTO 1 (NISHIO TEA GARDEN CANOPY)
+                 ========================================================================= -->
     <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
         <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
             <img src="/uploads/250509_NISHIO_132104.jpg" alt="Nishio Shaded Tea Farm Plantation"
@@ -90,8 +90,8 @@
     </div>
 
     <!-- =========================================================================
-             SECTION 3: GRADES (EDITORIAL TEXT & 2-COLUMN CLASSIFICATION)
-             ========================================================================= -->
+                 SECTION 3: GRADES (EDITORIAL TEXT & 2-COLUMN CLASSIFICATION)
+                 ========================================================================= -->
     <section class="py-20 sm:py-28 bg-white border-b border-stone-200">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
 
@@ -166,8 +166,8 @@
     </section>
 
     <!-- =========================================================================
-             SECTION 4: FULL-WIDTH EDITORIAL PHOTO 2 (KOKAEN STONE MILLING & PROCESSING)
-             ========================================================================= -->
+                 SECTION 4: FULL-WIDTH EDITORIAL PHOTO 2 (KOKAEN STONE MILLING & PROCESSING)
+                 ========================================================================= -->
     <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
         <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
             <img src="/uploads/260417_KOKAEN_133240.jpg" alt="Traditional Japanese Tea Finishing and Stone Mill Facility"
@@ -180,8 +180,8 @@
     </div>
 
     <!-- =========================================================================
-             SECTION 5: CURATED COLLECTIONS (SINGLES ORIGIN & MATCHA BLENDS)
-             ========================================================================= -->
+                 SECTION 5: CURATED COLLECTIONS (PREMIUM & BARISTA)
+                 ========================================================================= -->
     <section class="py-20 sm:py-28 bg-[#fbfaf6] border-b border-stone-200">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
 
@@ -262,8 +262,8 @@
     </section>
 
     <!-- =========================================================================
-             SECTION 6: FULL-WIDTH EDITORIAL PHOTO 3 (KAGOSHIMA VOLCANIC FIELDS)
-             ========================================================================= -->
+                 SECTION 6: FULL-WIDTH EDITORIAL PHOTO 3 (KAGOSHIMA VOLCANIC FIELDS)
+                 ========================================================================= -->
     <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
         <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
             <img src="/uploads/260422_KAGOSHIMA_094548.jpg" alt="Kagoshima Organic Volcanic Tea Garden"
@@ -276,8 +276,8 @@
     </div>
 
     <!-- =========================================================================
-             SECTION 7: FULL-WIDTH CINEMATIC CRAFT VIDEO (WHISKING & STONE MILLING)
-             ========================================================================= -->
+                 SECTION 7: FULL-WIDTH CINEMATIC CRAFT VIDEO (WHISKING & STONE MILLING)
+                 ========================================================================= -->
     <div class="w-full overflow-hidden bg-stone-950 border-b border-stone-200">
         <div class="w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] relative">
             <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto">
@@ -292,14 +292,15 @@
     </div>
 
     <!-- =========================================================================
-             SECTION 8: BIR REGISTRATION & COMPLIANCE SEAL
-             ========================================================================= -->
+                 SECTION 8: BIR REGISTRATION & COMPLIANCE SEAL
+                 ========================================================================= -->
     <section class="py-12 sm:py-16 bg-[#fbfaf6] border-b border-stone-200">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 text-center flex flex-col items-center justify-center space-y-4">
             <p class="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-stone-500">
                 Official Business Registration &amp; Compliance
             </p>
-            <div class="inline-block p-4 sm:p-6 md:p-8 bg-white rounded-3xl border border-stone-200 shadow-md max-w-3xl w-full">
+            <div
+                class="inline-block p-4 sm:p-6 md:p-8 bg-white rounded-3xl border border-stone-200 shadow-md max-w-3xl w-full">
                 <img src="{{ asset('uploads/bir-seal.jpg') }}" alt="BIR Registered Notice - Bureau of Internal Revenue"
                     class="w-full h-auto object-contain mx-auto rounded-xl">
             </div>
@@ -310,4 +311,3 @@
     </section>
 
 @endsection
-

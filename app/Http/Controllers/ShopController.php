@@ -17,12 +17,32 @@ class ShopController extends Controller
 
         // Filter by Category
         if ($request->filled('category')) {
-            $catSlug = $request->category;
+            $catSlug = strtolower($request->category);
             $cleanSlug = str_replace(['singles-', 'single-'], '', $catSlug);
-            $query->whereHas('category', function ($q) use ($catSlug, $cleanSlug) {
-                $q->where('slug', $catSlug)
-                  ->orWhere('slug', 'LIKE', '%' . $cleanSlug . '%')
-                  ->orWhere('name', 'LIKE', '%' . str_replace('-', ' ', $catSlug) . '%');
+            $query->where(function ($sub) use ($catSlug, $cleanSlug) {
+                $sub->whereHas('category', function ($q) use ($catSlug, $cleanSlug) {
+                    $q->where('slug', $catSlug)
+                      ->orWhere('slug', 'LIKE', '%' . $cleanSlug . '%')
+                      ->orWhere('name', 'LIKE', '%' . str_replace('-', ' ', $catSlug) . '%');
+
+                    if (in_array($catSlug, ['premium', 'single-origin-matcha', 'single-origin', 'singles-origin'])) {
+                        $q->orWhere('slug', 'LIKE', '%premium%')
+                          ->orWhere('name', 'LIKE', '%premium%')
+                          ->orWhere('slug', 'LIKE', '%single%')
+                          ->orWhere('name', 'LIKE', '%single%');
+                    } elseif (in_array($catSlug, ['barista', 'matcha-blends', 'blends'])) {
+                        $q->orWhere('slug', 'LIKE', '%barista%')
+                          ->orWhere('name', 'LIKE', '%barista%')
+                          ->orWhere('slug', 'LIKE', '%blend%')
+                          ->orWhere('name', 'LIKE', '%blend%');
+                    }
+                });
+
+                if (in_array($catSlug, ['premium', 'single-origin-matcha', 'single-origin', 'singles-origin'])) {
+                    $sub->orWhere('grade', 'LIKE', '%premium%');
+                } elseif (in_array($catSlug, ['barista', 'matcha-blends', 'blends'])) {
+                    $sub->orWhere('grade', 'LIKE', '%barista%');
+                }
             });
         }
 

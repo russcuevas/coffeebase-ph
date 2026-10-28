@@ -52,13 +52,13 @@
                         class="px-4 py-2 text-[11px] font-mono uppercase tracking-[0.15em] transition-all {{ !request('category') && !request('grade') ? 'bg-white text-stone-950 font-bold' : 'bg-black/40 text-cream-100 border border-white/40 hover:bg-white/20' }}">
                         All Matcha
                     </a>
-                    <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
-                        class="px-4 py-2 text-[11px] font-mono uppercase tracking-[0.15em] transition-all {{ request('category') === 'single-origin-matcha' || request('category') === 'singles-origin' || request('category') === 'single-origin' ? 'bg-white text-stone-950 font-bold' : 'bg-black/40 text-cream-100 border border-white/40 hover:bg-white/20' }}">
-                        Singles Origin
+                    <a href="{{ route('shop.index', ['category' => 'premium']) }}"
+                        class="px-4 py-2 text-[11px] font-mono uppercase tracking-[0.15em] transition-all {{ request('category') === 'premium' || request('category') === 'single-origin-matcha' || request('category') === 'singles-origin' || request('category') === 'single-origin' ? 'bg-white text-stone-950 font-bold' : 'bg-black/40 text-cream-100 border border-white/40 hover:bg-white/20' }}">
+                        Premium
                     </a>
-                    <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
-                        class="px-4 py-2 text-[11px] font-mono uppercase tracking-[0.15em] transition-all {{ request('category') === 'matcha-blends' ? 'bg-white text-stone-950 font-bold' : 'bg-black/40 text-cream-100 border border-white/40 hover:bg-white/20' }}">
-                        Matcha Blends
+                    <a href="{{ route('shop.index', ['category' => 'barista']) }}"
+                        class="px-4 py-2 text-[11px] font-mono uppercase tracking-[0.15em] transition-all {{ request('category') === 'barista' || request('category') === 'matcha-blends' || request('category') === 'blends' ? 'bg-white text-stone-950 font-bold' : 'bg-black/40 text-cream-100 border border-white/40 hover:bg-white/20' }}">
+                        Barista
                     </a>
                 </div>
             </div>
