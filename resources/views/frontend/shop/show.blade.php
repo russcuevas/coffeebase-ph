@@ -24,9 +24,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
             <!-- Left: Product Image -->
-            <div class="lg:col-span-6 sticky top-28">
+            <div class="lg:col-span-6">
                 <div
-                    class="rounded-2xl overflow-hidden border border-stone-200/80 bg-white shadow-sm aspect-square relative group p-8 flex items-center justify-center">
+                    class="rounded-2xl overflow-hidden border border-stone-200/80 bg-white shadow-sm aspect-square relative group p-6 sm:p-8 flex items-center justify-center">
                     <img id="main-product-image" src="{{ $product->primary_image ?: '/uploads/products/samidori.jpg' }}"
                         alt="{{ $product->name }}"
                         class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500">
@@ -45,50 +45,81 @@
 
                 <!-- Category & Title -->
                 <div>
+
                     @php
                         $nameLower = strtolower($product->name);
-                        $isSingleOrigin = ($product->type === 'Single Origin')
-                            || str_contains($nameLower, 'yabukita')
-                            || str_contains($nameLower, 'hikari')
-                            || str_contains($nameLower, 'samidori')
-                            || ($product->category && in_array(strtolower($product->category->slug), ['premium', 'single-origin-matcha', 'single-origin']));
 
-                        $displayOrigin = $product->origin;
-                        $displayGrade = $product->grade;
+                        $fallbackOrigin = 'Kyoto, Japan';
+                        $fallbackGrade = 'Ceremonial Grade';
+                        $isSingleOrigin = strcasecmp((string) $product->type, 'Single Origin') === 0;
+                        $hideSubtitle = false;
 
-                        if (str_contains($nameLower, 'yabukita')) {
-                            $displayOrigin = 'Yame';
-                            $displayGrade = 'Ceremonial grade';
-                        } elseif (str_contains($nameLower, 'hikari')) {
-                            $displayOrigin = 'Uji';
-                            $displayGrade = 'Ceremonial grade';
-                        } elseif (str_contains($nameLower, 'samidori')) {
-                            $displayOrigin = 'Uji';
-                            $displayGrade = 'Ceremonial grade';
+                        if (str_contains($nameLower, 'hojic') || str_contains($nameLower, 'hojich')) {
+                            $fallbackOrigin = 'Kyoto, Japan';
+                            $fallbackGrade = null;
+                            $isSingleOrigin = false;
+                            $hideSubtitle = true;
+                        } elseif (str_contains($nameLower, 'extra') && str_contains($nameLower, 'nutty')) {
+                            $fallbackOrigin = 'Aichi, Kagoshima, Kyoto';
+                            $fallbackGrade = 'Ceremonial Grade';
+                        } elseif (str_contains($nameLower, 'premium') && str_contains($nameLower, 'nutty')) {
+                            $fallbackOrigin = 'Aichi, Kagoshima, Kyoto';
+                            $fallbackGrade = 'Ceremonial Grade';
                         } elseif (str_contains($nameLower, 'nutty')) {
-                            $displayOrigin = 'Aichi, Kagoshima, Kyoto';
-                            $displayGrade = 'Ceremonial Latte Grade';
+                            $fallbackOrigin = 'Aichi, Kagoshima, Kyoto';
+                            $fallbackGrade = str_contains($nameLower, 'barista')
+                                ? 'Ceremonial Latte grade'
+                                : 'Ceremonial Grade';
                         } elseif (str_contains($nameLower, 'barista')) {
-                            $displayOrigin = 'Kagoshima, Aichi, Kyoto';
-                            $displayGrade = 'Ceremonial Latte Grade';
-                        } elseif ($isSingleOrigin) {
-                            $displayGrade = 'Ceremonial grade';
+                            $fallbackOrigin = 'Kagoshima, Aichi, Kyoto';
+                            $fallbackGrade = 'Ceremonial Latte grade';
+                        } elseif (str_contains($nameLower, 'yabukita')) {
+                            $fallbackOrigin = 'Yame';
+                            $fallbackGrade = 'Ceremonial grade';
+                            $isSingleOrigin = true;
+                        } elseif (str_contains($nameLower, 'hikari')) {
+                            $fallbackOrigin = 'Uji';
+                            $fallbackGrade = 'Ceremonial grade';
+                            $isSingleOrigin = true;
+                        } elseif (str_contains($nameLower, 'samidori')) {
+                            $fallbackOrigin = 'Uji';
+                            $fallbackGrade = 'Ceremonial grade';
+                            $isSingleOrigin = true;
+                        } elseif (str_contains($nameLower, 'ren')) {
+                            $fallbackOrigin = 'Kagoshima';
+                            $fallbackGrade = 'Ceremonial Grade';
+                        } elseif (str_contains($nameLower, 'kirishima')) {
+                            $fallbackOrigin = 'Kagoshima';
+                            $fallbackGrade = 'Ceremonial Grade';
                         }
+
+                        $displayOrigin = $product->origin ?: $fallbackOrigin;
+                        $displayGrade = $hideSubtitle ? null : ($product->grade ?: $fallbackGrade);
                     @endphp
 
-                    <div class="flex items-center gap-3 text-xs text-matcha-700 uppercase font-semibold tracking-widest flex-wrap">
-                        <span>{{ $displayOrigin ?? ($product->origin ?? 'Kyoto, Japan') }}</span>
-                        <span>•</span>
-                        <span>{{ $displayGrade ?? ($product->grade ?? 'Ceremonial Grade') }}</span>
-                        @if ($isSingleOrigin)
-                            <span>•</span>
-                            <span>Single Origin</span>
-                        @endif
-                    </div>
+                    @if (!$hideSubtitle)
+                        <div
+                            class="flex items-center gap-3 text-xs text-matcha-700 uppercase font-semibold tracking-widest flex-wrap">
+                            @if ($displayOrigin)
+                                <span>{{ $displayOrigin }}</span>
+                            @endif
+
+                            @if ($displayGrade)
+                                <span>•</span>
+                                <span>{{ $displayGrade }}</span>
+                            @endif
+
+                            @if ($isSingleOrigin)
+                                <span>•</span>
+                                <span>Single Origin</span>
+                            @endif
+                        </div>
+                    @endif
 
                     <h1 class="text-3xl sm:text-4xl font-sans font-bold tracking-tight text-matcha-950 mt-1">
                         {{ $product->name }}
                     </h1>
+
 
                     @if ($product->flavor_notes)
                         <div
@@ -267,14 +298,13 @@
                         {{-- 1. Type --}}
                         <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
                             <span class="font-bold text-stone-500 uppercase tracking-wider">Type</span>
-                            <span
-                                class="col-span-2 text-stone-900 font-semibold">{{ $product->type ?: ($isSingleOrigin ? 'Single Origin' : ($displayGrade ?: '—')) }}</span>
+                            <span class="col-span-2 text-stone-900 font-semibold">{{ $product->type ?: '—' }}</span>
                         </div>
 
                         {{-- 2. Origin --}}
                         <div class="grid grid-cols-3 p-3.5 hover:bg-stone-50/50">
                             <span class="font-bold text-stone-500 uppercase tracking-wider">Origin</span>
-                            <span class="col-span-2 text-stone-900 font-medium">{{ $displayOrigin ?: ($product->origin ?: '—') }}</span>
+                            <span class="col-span-2 text-stone-900 font-medium">{{ $product->origin ?: ($displayOrigin ?: '—') }}</span>
                         </div>
 
                         {{-- 3. Cultivar --}}

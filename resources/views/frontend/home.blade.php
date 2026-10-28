@@ -188,7 +188,7 @@
             <div class="max-w-3xl mb-14 sm:mb-20 space-y-3">
                 <p class="text-xs font-mono uppercase tracking-[0.3em] text-matcha-800 font-bold">Collections</p>
                 <h2 class="text-3xl sm:text-5xl font-serif font-bold tracking-tight text-stone-950">
-                    Singles Origin &amp; Master Blends
+                    Premium &amp; Barista
                 </h2>
                 <p class="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
                     Explore single cultivar nuance or perfectly calibrated blends for beverage craft.
@@ -197,23 +197,23 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
 
-                <!-- Card 1: Singles Origin -->
-                <a href="{{ route('shop.index', ['category' => 'single-origin-matcha']) }}"
+                <!-- Card 1: Premium -->
+                <a href="{{ route('shop.index', ['category' => 'premium']) }}"
                     class="group block bg-white border border-stone-200 rounded-2xl overflow-hidden hover:border-stone-400 transition-all duration-500 hover:shadow-2xl">
                     <div class="aspect-[16/10] overflow-hidden relative bg-stone-100">
-                        <img src="/uploads/Nishio,%20Aichi.jpg" alt="Singles Origin Matcha"
+                        <img src="/uploads/Nishio,%20Aichi.jpg" alt="Premium Matcha"
                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
                         <span
                             class="absolute top-4 left-4 px-3 py-1 bg-white/95 backdrop-blur-xs text-stone-950 font-mono text-[10px] uppercase tracking-[0.2em] font-bold rounded">
-                            № 01 / Single Cultivars
+                            № 01 / Premium
                         </span>
                     </div>
                     <div class="p-6 sm:p-10 space-y-3">
                         <div class="flex items-center justify-between">
                             <h3
                                 class="text-2xl font-serif font-bold text-stone-950 group-hover:text-matcha-800 transition-colors">
-                                Singles Origin Matcha
+                                Premium
                             </h3>
                             <span
                                 class="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-stone-800 group-hover:bg-stone-950 group-hover:text-white transition-all">
@@ -227,23 +227,23 @@
                     </div>
                 </a>
 
-                <!-- Card 2: Matcha Blends -->
-                <a href="{{ route('shop.index', ['category' => 'matcha-blends']) }}"
+                <!-- Card 2: Barista -->
+                <a href="{{ route('shop.index', ['category' => 'barista']) }}"
                     class="group block bg-white border border-stone-200 rounded-2xl overflow-hidden hover:border-stone-400 transition-all duration-500 hover:shadow-2xl">
                     <div class="aspect-[16/10] overflow-hidden relative bg-stone-100">
-                        <img src="/uploads/KAGOSHIMA.jpg" alt="Matcha Blends"
+                        <img src="/uploads/KAGOSHIMA.jpg" alt="Barista"
                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
                         <span
                             class="absolute top-4 left-4 px-3 py-1 bg-white/95 backdrop-blur-xs text-stone-950 font-mono text-[10px] uppercase tracking-[0.2em] font-bold rounded">
-                            № 02 / Master Blends
+                            № 02 / Barista
                         </span>
                     </div>
                     <div class="p-6 sm:p-10 space-y-3">
                         <div class="flex items-center justify-between">
                             <h3
                                 class="text-2xl font-serif font-bold text-stone-950 group-hover:text-matcha-800 transition-colors">
-                                Matcha Blends
+                                Barista
                             </h3>
                             <span
                                 class="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-stone-800 group-hover:bg-stone-950 group-hover:text-white transition-all">
